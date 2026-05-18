@@ -14,12 +14,16 @@ export interface Dimensions {
   height: number;
 }
 
-/** Format dimension mapping */
+/**
+ * Format dimension mapping.
+ * All dimensions are divisible by 16 for GPT Image 2 compatibility.
+ * Original social media sizes rounded to nearest valid values.
+ */
 export const FORMAT_DIMENSIONS: Record<OutputFormat, Dimensions> = {
-  linkedin: { width: 1200, height: 627 },
-  instagram: { width: 1080, height: 1080 },
-  og: { width: 1200, height: 630 },
-  'facebook-cover': { width: 820, height: 312 },
+  linkedin: { width: 1200, height: 624 },     // was 627 → nearest div-by-16
+  instagram: { width: 1088, height: 1088 },   // was 1080 → nearest div-by-16
+  og: { width: 1200, height: 624 },           // was 630 → nearest div-by-16 (same as linkedin)
+  'facebook-cover': { width: 816, height: 320 }, // was 820x312 → nearest div-by-16
 };
 
 /** Supported quality levels */

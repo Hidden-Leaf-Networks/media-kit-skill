@@ -42,25 +42,25 @@ describe('Prompt Builder', () => {
       const config = buildPromptConfig(productLaunchInput);
       expect(config.template).toBe('product-launch');
       expect(config.format).toBe('linkedin');
-      expect(config.dimensions).toEqual({ width: 1200, height: 627 });
+      expect(config.dimensions).toEqual({ width: 1200, height: 624 });
     });
 
     it('routes case-study to correct config builder', () => {
       const config = buildPromptConfig(caseStudyInput);
       expect(config.template).toBe('case-study');
-      expect(config.dimensions).toEqual({ width: 1080, height: 1080 });
+      expect(config.dimensions).toEqual({ width: 1088, height: 1088 });
     });
 
     it('routes service-promo to correct config builder', () => {
       const config = buildPromptConfig(servicePromoInput);
       expect(config.template).toBe('service-promo');
-      expect(config.dimensions).toEqual({ width: 1200, height: 630 });
+      expect(config.dimensions).toEqual({ width: 1200, height: 624 });
     });
 
     it('routes milestone to correct config builder', () => {
       const config = buildPromptConfig(milestoneInput);
       expect(config.template).toBe('milestone');
-      expect(config.dimensions).toEqual({ width: 820, height: 312 });
+      expect(config.dimensions).toEqual({ width: 816, height: 320 });
     });
   });
 
@@ -77,7 +77,7 @@ describe('Prompt Builder', () => {
     it('includes dimensions in the prompt', () => {
       const config = buildPromptConfig(productLaunchInput);
       const prompt = assemblePrompt(config);
-      expect(prompt).toContain('1200x627');
+      expect(prompt).toContain('1200x624');
     });
 
     it('includes brand name and URL', () => {

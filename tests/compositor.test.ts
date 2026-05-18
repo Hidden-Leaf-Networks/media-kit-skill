@@ -18,7 +18,7 @@ describe('Compositor', () => {
   });
 
   /** Create a test image (solid dark background) */
-  async function createTestImage(width = 1200, height = 627): Promise<string> {
+  async function createTestImage(width = 1200, height = 624): Promise<string> {
     const imagePath = path.join(tmpDir, `test-${Date.now()}.png`);
     await sharp({
       create: {
@@ -46,7 +46,7 @@ describe('Compositor', () => {
     const meta = await sharp(imagePath).metadata();
     expect(meta.format).toBe('png');
     expect(meta.width).toBe(1200);
-    expect(meta.height).toBe(627);
+    expect(meta.height).toBe(624);
   });
 
   it('uses dark logo variant by default', async () => {
@@ -104,11 +104,11 @@ describe('Compositor', () => {
   });
 
   it('works with square images', async () => {
-    const imagePath = await createTestImage(1080, 1080);
+    const imagePath = await createTestImage(1088, 1088);
     await compositeLogoOnImage(imagePath, { assetsDir: ASSETS_DIR });
     const meta = await sharp(imagePath).metadata();
-    expect(meta.width).toBe(1080);
-    expect(meta.height).toBe(1080);
+    expect(meta.width).toBe(1088);
+    expect(meta.height).toBe(1088);
   });
 
   it('works with wide images (facebook cover)', async () => {

@@ -62,7 +62,7 @@ describe('ImageGenerator', () => {
     expect(fs.existsSync(result.outputPath)).toBe(true);
     expect(result.model).toBe('gpt-image-2');
     expect(result.format).toBe('linkedin');
-    expect(result.dimensions).toEqual({ width: 1200, height: 627 });
+    expect(result.dimensions).toEqual({ width: 1200, height: 624 });
     expect(result.prompt).toContain('Test Skill');
   });
 
@@ -81,7 +81,7 @@ describe('ImageGenerator', () => {
       expect.objectContaining({
         model: 'dall-e-3',
         n: 1,
-        size: '1200x627',
+        size: '1200x624',
         quality: 'medium',
         output_format: 'png',
       }),
@@ -217,7 +217,7 @@ describe('ImageGenerator', () => {
 
     const result = await generator.generate(milestoneInput);
     expect(result.format).toBe('instagram');
-    expect(result.dimensions).toEqual({ width: 1080, height: 1080 });
+    expect(result.dimensions).toEqual({ width: 1088, height: 1088 });
     expect(result.prompt).toContain('Big News Dropping');
   });
 });
