@@ -63,6 +63,46 @@ const TONE_PRESETS: Record<CopyTone, { description: string; extraRules: string[]
       'Appropriate for nonprofits, community orgs, churches',
     ],
   },
+  'ai-engineering': {
+    description: 'Technical, direct, production-proof. Ships governed AI systems, not wrappers.',
+    extraRules: [
+      'Lead with production proof: 14 governed agents, 300+ tests, v3.4.0 deployed',
+      'Differentiate from wrapper builders — governed state machines vs prompt chain wrappers',
+      'Cite specific numbers: 14 agents, 300+ tests, 4 providers, 6 energy types',
+      'Offer a fixed-price pilot ($3k-7k) to reduce client risk',
+      'Close with "I can start today" or "Ready when you are"',
+      'Reference ARIA (agent framework), Auralis (RAG), atlassian-skill (267 tests)',
+      'Multi-model orchestration: Anthropic, OpenAI, xAI, Google with fallback chains',
+      'Governance edge: risk scoring, approval workflows, audit trails, skill allowlists',
+      'Rate floor: $125/hr — never race to the bottom',
+      'Tech jargon is OK here — this audience is technical',
+    ],
+  },
+  'web-studio': {
+    description: 'Business owner to business owner. Outcomes over technology. Detroit-grounded.',
+    extraRules: [
+      'Sell outcomes: more customers, professional credibility, time saved',
+      'Speak to pain: broken mobile sites, no online presence, losing customers',
+      'Reference live work: KYC Doggz (kycdoggz.com), Generous Giving (generousgivingdetroit.com)',
+      'Include pricing: Essential $950, Growth $1,850, Authority $3,100',
+      'Upsell care plans: ongoing support $75-$300/mo',
+      'Ground in Detroit — local business serving local businesses',
+      'No tech jargon — say "modern website" not "Next.js 16 app"',
+    ],
+  },
+  'small-business': {
+    description: 'Warm, accessible, community-minded. Neighbor who builds great websites.',
+    extraRules: [
+      'Lead with understanding their situation, not your capabilities',
+      'Mention installment plans and deposits ($250 gets started)',
+      'Emphasize speed: design to deploy in days, not months',
+      'Care plans as ongoing partnership, not upsell',
+      'Offer free 15-min consultation or website audit',
+      'Reference church and community org experience',
+      'Never be pushy, never make them feel behind',
+      'Zero technical jargon — absolute zero',
+    ],
+  },
 };
 
 /** Platform-specific copy guidelines */
@@ -77,14 +117,27 @@ const PLATFORM_NOTES: Record<CopyFormat, string> = {
 /**
  * Build brand voice rules for a given tone and platform
  */
+/** Perspective overrides for specialized tones */
+const PERSPECTIVES: Partial<Record<CopyTone, string>> = {
+  'ai-engineering': `You are Tre Snowchild, founder of Hidden Leaf Networks — an applied AI studio in Detroit. You build production multi-agent systems with governed execution, risk engines, and audit trails. 14 agents deployed, 300+ tests, v3.4.0 in production.`,
+  'web-studio': `You are Tre, founder of Hidden Leaf Web Studio. ${VOICE.experience}. Based in ${VOICE.location}. You build professional websites for small businesses and nonprofits — live client work at kycdoggz.com and generousgivingdetroit.com.`,
+  'small-business': `You are Tre from Hidden Leaf Web Studio in Metro Detroit. You help small businesses and nonprofits get online with professional websites. You've been building for the web for 20 years. You offer installment plans and ongoing care.`,
+};
+
 export function buildBrandVoice(tone: CopyTone, format: CopyFormat): BrandVoiceRules {
   const preset = TONE_PRESETS[tone];
+  const defaultPerspective = `You are Tre, founder of Hidden Leaf Web Studio. ${VOICE.experience}. Based in ${VOICE.location}. You build professional, mobile-first websites for small businesses and nonprofits.`;
+
+  // AI engineering tone relaxes the "no jargon" rules
+  const baseDontRules = tone === 'ai-engineering'
+    ? VOICE_DONT.filter(r => !r.includes('tech jargon'))
+    : [...VOICE_DONT];
 
   return {
     tone,
-    perspective: `You are Tre, founder of Hidden Leaf Web Studio. ${VOICE.experience}. Based in ${VOICE.location}. You build professional, mobile-first websites for small businesses and nonprofits.`,
+    perspective: PERSPECTIVES[tone] ?? defaultPerspective,
     doRules: [...VOICE_DO, ...preset.extraRules],
-    dontRules: [...VOICE_DONT],
+    dontRules: baseDontRules,
     platformNotes: PLATFORM_NOTES[format],
   };
 }

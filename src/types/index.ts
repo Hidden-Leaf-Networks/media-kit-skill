@@ -169,7 +169,7 @@ export const COPY_FORMAT_RULES: Record<CopyFormat, { maxLength: number; hashtagS
 };
 
 /** Tone presets */
-export type CopyTone = 'professional' | 'conversational' | 'community';
+export type CopyTone = 'professional' | 'conversational' | 'community' | 'ai-engineering' | 'web-studio' | 'small-business';
 
 /** A section of copy content */
 export interface CopySection {

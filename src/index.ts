@@ -58,6 +58,16 @@ export { buildServicePromoConfig } from './templates/service-promo.js';
 export { buildMilestoneConfig } from './templates/milestone.js';
 export { buildAgentAvatarConfig, assembleAgentAvatarPrompt } from './templates/agent-avatar.js';
 
+// Proposal Templates
+export {
+  buildProposalSystemPrompt,
+  buildProposalUserPrompt,
+  getProposalTypes,
+  getProposalFormats,
+  getVoiceProfile,
+} from './templates/proposal.js';
+export type { ProposalType, ProposalFormat, ProposalInput, ProposalResult } from './templates/proposal.js';
+
 // Element System
 export { ELEMENT_DEFINITIONS, getElementDefinition, getAllElementPrefixes } from './config/element-system.js';
 export type { ElementDefinition, ElementPalette, ElementMotifs, ElementMood } from './config/element-system.js';
