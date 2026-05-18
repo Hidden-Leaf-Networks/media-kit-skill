@@ -28,6 +28,8 @@ export function buildCopyConfig(
       return buildServicePromoCopyConfig(input, copyFormat, tone);
     case 'milestone':
       return buildMilestoneCopyConfig(input, copyFormat, tone);
+    case 'agent-avatar':
+      throw new Error('agent-avatar template does not support copy generation');
   }
 }
 

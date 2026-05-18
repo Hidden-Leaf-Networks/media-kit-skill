@@ -17,6 +17,10 @@ export type {
   CaseStudyInput,
   ServicePromoInput,
   MilestoneInput,
+  AgentAvatarInput,
+  EnergyPrefix,
+  AvatarComposition,
+  GenderPresentation,
   MediaKitInput,
   PromptConfig,
   PromptSection,
@@ -52,6 +56,11 @@ export { buildProductLaunchConfig } from './templates/product-launch.js';
 export { buildCaseStudyConfig } from './templates/case-study.js';
 export { buildServicePromoConfig } from './templates/service-promo.js';
 export { buildMilestoneConfig } from './templates/milestone.js';
+export { buildAgentAvatarConfig, assembleAgentAvatarPrompt } from './templates/agent-avatar.js';
+
+// Element System
+export { ELEMENT_DEFINITIONS, getElementDefinition, getAllElementPrefixes } from './config/element-system.js';
+export type { ElementDefinition, ElementPalette, ElementMotifs, ElementMood } from './config/element-system.js';
 
 // Templates — Copy
 export { buildProductLaunchCopyConfig } from './templates/product-launch.js';
@@ -68,6 +77,10 @@ export type { OpenAIImageClient } from './generators/image-generator.js';
 export { buildCopyConfig, assembleCopySystemPrompt, assembleCopyUserPrompt, buildCopyPrompts, validateCopyInput } from './generators/copy-builder.js';
 export { TextGenerator, createTextGeneratorFromEnv, generateKit } from './generators/text-generator.js';
 export type { OpenAIChatClient } from './generators/text-generator.js';
+
+// Generators — Image Editor
+export { ImageEditor, createImageEditorFromEnv } from './generators/image-editor.js';
+export type { OpenAIImageEditClient, ImageEditorConfig, ImageEditInput, ImageEditResult } from './generators/image-editor.js';
 
 // Compositor
 export { compositeLogoOnImage, compositeAssets } from './generators/compositor.js';

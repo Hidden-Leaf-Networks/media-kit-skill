@@ -102,8 +102,8 @@ export class ImageGenerator {
     const buffer = Buffer.from(imageData.b64_json, 'base64');
     fs.writeFileSync(outputPath, buffer);
 
-    // Post-process: overlay logo (enabled by default)
-    if (input.logo !== false) {
+    // Post-process: overlay logo (enabled by default, disabled for agent avatars)
+    if (input.logo !== false && input.template !== 'agent-avatar') {
       const logoOpts: CompositeOptions = {};
       if (input.logo) {
         if (input.logo.variant) logoOpts.logo = input.logo.variant;
@@ -145,6 +145,9 @@ export class ImageGenerator {
         break;
       case 'milestone':
         slug = input.announcement.toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 30);
+        break;
+      case 'agent-avatar':
+        slug = `${input.energyPrefix}-${input.rootName}`.toLowerCase().replace(/[^a-z0-9]+/g, '-');
         break;
     }
 

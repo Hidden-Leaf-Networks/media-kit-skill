@@ -2,17 +2,19 @@ import { buildProductLaunchConfig } from '../src/templates/product-launch';
 import { buildCaseStudyConfig } from '../src/templates/case-study';
 import { buildServicePromoConfig } from '../src/templates/service-promo';
 import { buildMilestoneConfig } from '../src/templates/milestone';
+import { buildAgentAvatarConfig } from '../src/templates/agent-avatar';
 import { TEMPLATE_DEFINITIONS, getTemplateDefinition, getAllTemplateTypes } from '../src/config/templates';
-import type { ProductLaunchInput, CaseStudyInput, ServicePromoInput, MilestoneInput } from '../src/types/index';
+import type { ProductLaunchInput, CaseStudyInput, ServicePromoInput, MilestoneInput, AgentAvatarInput } from '../src/types/index';
 
 describe('Template Definitions', () => {
-  it('has all 4 template types registered', () => {
+  it('has all 5 template types registered', () => {
     const types = getAllTemplateTypes();
     expect(types).toContain('product-launch');
     expect(types).toContain('case-study');
     expect(types).toContain('service-promo');
     expect(types).toContain('milestone');
-    expect(types).toHaveLength(4);
+    expect(types).toContain('agent-avatar');
+    expect(types).toHaveLength(5);
   });
 
   it('each definition has required fields', () => {
@@ -173,5 +175,176 @@ describe('Milestone Template', () => {
     const config = buildMilestoneConfig(input);
     const bg = config.sections.find((s) => s.role === 'background')!;
     expect(bg.content).toContain('Detroit');
+  });
+});
+
+describe('Agent Avatar Template', () => {
+  const input: AgentAvatarInput = {
+    template: 'agent-avatar',
+    format: 'instagram',
+    energyPrefix: 'frost',
+    rootName: "Zy'Reth",
+    suffixModifier: 'Prime',
+    domain: 'finance',
+    designation: 'CMD-01',
+  };
+
+  it('returns correct template type', () => {
+    const config = buildAgentAvatarConfig(input);
+    expect(config.template).toBe('agent-avatar');
+  });
+
+  it('has subject, armor, sigil, environment, composition, quality sections', () => {
+    const config = buildAgentAvatarConfig(input);
+    const roles = config.sections.map((s) => s.role);
+    expect(roles).toContain('subject');
+    expect(roles).toContain('armor');
+    expect(roles).toContain('sigil');
+    expect(roles).toContain('environment');
+    expect(roles).toContain('composition');
+    expect(roles).toContain('quality');
+    expect(roles).toHaveLength(6);
+  });
+
+  it('includes agent root name in subject section', () => {
+    const config = buildAgentAvatarConfig(input);
+    const subject = config.sections.find((s) => s.role === 'subject')!;
+    expect(subject.content).toContain("Zy'Reth");
+  });
+
+  it('includes Afro-futurist in subject section', () => {
+    const config = buildAgentAvatarConfig(input);
+    const subject = config.sections.find((s) => s.role === 'subject')!;
+    expect(subject.content).toContain('Afro-futurist');
+  });
+
+  it('uses frost element motifs for frost prefix', () => {
+    const config = buildAgentAvatarConfig(input);
+    const armor = config.sections.find((s) => s.role === 'armor')!;
+    expect(armor.content).toContain('crystalline');
+    expect(armor.content).toContain('ice');
+  });
+
+  it('uses frost backdrop for frost prefix', () => {
+    const config = buildAgentAvatarConfig(input);
+    const env = config.sections.find((s) => s.role === 'environment')!;
+    expect(env.content).toContain('arctic');
+  });
+
+  it('disables logo and url brand elements', () => {
+    const config = buildAgentAvatarConfig(input);
+    expect(config.brandElements.logo).toBe(false);
+    expect(config.brandElements.url).toBe(false);
+  });
+
+  it('applies element-specific eye color', () => {
+    const config = buildAgentAvatarConfig(input);
+    const subject = config.sections.find((s) => s.role === 'subject')!;
+    expect(subject.content).toContain('icy blue');
+  });
+
+  it('uses ember motifs for ember prefix', () => {
+    const emberInput: AgentAvatarInput = {
+      ...input,
+      energyPrefix: 'ember',
+      rootName: 'Kaelor',
+      suffixModifier: 'Sentinel',
+    };
+    const config = buildAgentAvatarConfig(emberInput);
+    const armor = config.sections.find((s) => s.role === 'armor')!;
+    expect(armor.content).toContain('samurai');
+    const subject = config.sections.find((s) => s.role === 'subject')!;
+    expect(subject.content).toContain('amber');
+  });
+
+  it('uses void motifs for void prefix', () => {
+    const voidInput: AgentAvatarInput = {
+      ...input,
+      energyPrefix: 'void',
+      rootName: 'Nyx',
+      suffixModifier: 'Vault',
+    };
+    const config = buildAgentAvatarConfig(voidInput);
+    const armor = config.sections.find((s) => s.role === 'armor')!;
+    expect(armor.content).toContain('obsidian');
+    const sigil = config.sections.find((s) => s.role === 'sigil')!;
+    expect(sigil.content).toContain('crescent');
+  });
+
+  it('uses storm motifs for storm prefix', () => {
+    const stormInput: AgentAvatarInput = {
+      ...input,
+      energyPrefix: 'storm',
+      rootName: 'Sol',
+      suffixModifier: 'Vanguard',
+    };
+    const config = buildAgentAvatarConfig(stormInput);
+    const env = config.sections.find((s) => s.role === 'environment')!;
+    expect(env.content).toContain('lightning');
+    const subject = config.sections.find((s) => s.role === 'subject')!;
+    expect(subject.content).toContain('golden');
+  });
+
+  it('supports female gender presentation', () => {
+    const femaleInput: AgentAvatarInput = {
+      ...input,
+      gender: 'female',
+    };
+    const config = buildAgentAvatarConfig(femaleInput);
+    const subject = config.sections.find((s) => s.role === 'subject')!;
+    expect(subject.content).toContain('female');
+  });
+
+  it('supports custom mood override', () => {
+    const moodInput: AgentAvatarInput = {
+      ...input,
+      mood: 'fierce battle-ready aggression',
+    };
+    const config = buildAgentAvatarConfig(moodInput);
+    const subject = config.sections.find((s) => s.role === 'subject')!;
+    expect(subject.content).toContain('fierce battle-ready aggression');
+  });
+
+  it('supports custom armor override', () => {
+    const armorInput: AgentAvatarInput = {
+      ...input,
+      armorOverride: 'sleek matte black stealth suit with minimal frost accents',
+    };
+    const config = buildAgentAvatarConfig(armorInput);
+    const armor = config.sections.find((s) => s.role === 'armor')!;
+    expect(armor.content).toContain('sleek matte black stealth suit');
+  });
+
+  it('supports custom chest sigil', () => {
+    const sigilInput: AgentAvatarInput = {
+      ...input,
+      chestSigil: 'binary star system orbiting a frost core',
+    };
+    const config = buildAgentAvatarConfig(sigilInput);
+    const sigil = config.sections.find((s) => s.role === 'sigil')!;
+    expect(sigil.content).toContain('binary star system');
+  });
+
+  it('includes quality directives with 8k and Afro-futurist', () => {
+    const config = buildAgentAvatarConfig(input);
+    const quality = config.sections.find((s) => s.role === 'quality')!;
+    expect(quality.content).toContain('8k');
+    expect(quality.content).toContain('Afro-futurist');
+  });
+
+  it('supports all 4 composition styles', () => {
+    for (const comp of ['portrait', 'bust', 'full-body', 'hud-closeup'] as const) {
+      const config = buildAgentAvatarConfig({ ...input, composition: comp });
+      const section = config.sections.find((s) => s.role === 'composition')!;
+      expect(section.content.length).toBeGreaterThan(0);
+    }
+  });
+
+  it('supports all 6 energy prefixes', () => {
+    for (const prefix of ['frost', 'ember', 'storm', 'void', 'verdance', 'axis'] as const) {
+      const config = buildAgentAvatarConfig({ ...input, energyPrefix: prefix });
+      expect(config.template).toBe('agent-avatar');
+      expect(config.sections.length).toBe(6);
+    }
   });
 });

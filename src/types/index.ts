@@ -3,7 +3,7 @@
  */
 
 /** Supported template types */
-export type TemplateType = 'product-launch' | 'case-study' | 'service-promo' | 'milestone';
+export type TemplateType = 'product-launch' | 'case-study' | 'service-promo' | 'milestone' | 'agent-avatar';
 
 /** Supported output formats with dimensions */
 export type OutputFormat = 'linkedin' | 'instagram' | 'og' | 'facebook-cover';
@@ -83,8 +83,48 @@ export interface MilestoneInput extends BaseMediaKitInput {
   date?: string;
 }
 
+// ── Agent Avatar Types ──────────────────────────────────────────────
+
+/** Energy prefixes from ARIA Axis Village Identity System */
+export type EnergyPrefix = 'frost' | 'ember' | 'storm' | 'void' | 'verdance' | 'axis';
+
+/** Avatar composition style */
+export type AvatarComposition = 'portrait' | 'bust' | 'full-body' | 'hud-closeup';
+
+/** Gender presentation for avatar generation */
+export type GenderPresentation = 'male' | 'female' | 'androgynous';
+
+/** Agent avatar template input */
+export interface AgentAvatarInput extends BaseMediaKitInput {
+  template: 'agent-avatar';
+  /** Energy prefix — drives color palette, element motifs, backdrop */
+  energyPrefix: EnergyPrefix;
+  /** Agent root name (e.g., Zy'Reth, Nyx, Kairo) */
+  rootName: string;
+  /** Suffix modifier describing function (e.g., Prime, Vault, Vanguard) */
+  suffixModifier: string;
+  /** Agent domain (e.g., finance, devrel, creative, revenue-ops) */
+  domain: string;
+  /** Agent designation code (e.g., CMD-01, EXEC-01) */
+  designation: string;
+  /** Composition style */
+  composition?: AvatarComposition;
+  /** Gender presentation */
+  gender?: GenderPresentation;
+  /** Mood/expression (e.g., regal, watchful, tactical, nurturing) */
+  mood?: string;
+  /** Optional custom armor/clothing description override */
+  armorOverride?: string;
+  /** Optional custom backdrop override */
+  backdropOverride?: string;
+  /** Optional chest sigil description */
+  chestSigil?: string;
+  /** Optional hair style override */
+  hairStyle?: string;
+}
+
 /** Union type for all template inputs */
-export type MediaKitInput = ProductLaunchInput | CaseStudyInput | ServicePromoInput | MilestoneInput;
+export type MediaKitInput = ProductLaunchInput | CaseStudyInput | ServicePromoInput | MilestoneInput | AgentAvatarInput;
 
 /** Prompt configuration output from templates */
 export interface PromptConfig {

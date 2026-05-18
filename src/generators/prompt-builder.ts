@@ -10,6 +10,7 @@ import { buildProductLaunchConfig } from '../templates/product-launch.js';
 import { buildCaseStudyConfig } from '../templates/case-study.js';
 import { buildServicePromoConfig } from '../templates/service-promo.js';
 import { buildMilestoneConfig } from '../templates/milestone.js';
+import { buildAgentAvatarConfig, assembleAgentAvatarPrompt } from '../templates/agent-avatar.js';
 
 /**
  * Build a PromptConfig from a MediaKitInput by routing to the correct template
@@ -24,6 +25,8 @@ export function buildPromptConfig(input: MediaKitInput): PromptConfig {
       return buildServicePromoConfig(input);
     case 'milestone':
       return buildMilestoneConfig(input);
+    case 'agent-avatar':
+      return buildAgentAvatarConfig(input);
   }
 }
 
@@ -32,6 +35,11 @@ export function buildPromptConfig(input: MediaKitInput): PromptConfig {
  * Enforces HLN brand design system in every prompt.
  */
 export function assemblePrompt(config: PromptConfig): string {
+  // Agent avatars use their own assembly — no brand marketing preamble
+  if (config.template === 'agent-avatar') {
+    return assembleAgentAvatarPrompt(config);
+  }
+
   const templateDef = getTemplateDefinition(config.template);
   const { width, height } = config.dimensions;
 
@@ -146,6 +154,22 @@ export function validateInput(input: MediaKitInput): string[] {
     case 'milestone':
       if (!input.announcement) errors.push('announcement is required for milestone');
       if (!input.details || input.details.length === 0) errors.push('details must be a non-empty array');
+      break;
+    case 'agent-avatar':
+      if (!input.energyPrefix) errors.push('energyPrefix is required for agent-avatar');
+      else if (!['frost', 'ember', 'storm', 'void', 'verdance', 'axis'].includes(input.energyPrefix)) {
+        errors.push(`Invalid energyPrefix: ${input.energyPrefix}. Must be one of: frost, ember, storm, void, verdance, axis`);
+      }
+      if (!input.rootName) errors.push('rootName is required for agent-avatar');
+      if (!input.suffixModifier) errors.push('suffixModifier is required for agent-avatar');
+      if (!input.domain) errors.push('domain is required for agent-avatar');
+      if (!input.designation) errors.push('designation is required for agent-avatar');
+      if (input.composition && !['portrait', 'bust', 'full-body', 'hud-closeup'].includes(input.composition)) {
+        errors.push(`Invalid composition: ${input.composition}`);
+      }
+      if (input.gender && !['male', 'female', 'androgynous'].includes(input.gender)) {
+        errors.push(`Invalid gender: ${input.gender}`);
+      }
       break;
     default:
       errors.push(`Unknown template: ${(input as MediaKitInput).template}`);

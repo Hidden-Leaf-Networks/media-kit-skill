@@ -41,6 +41,13 @@ export const TEMPLATE_DEFINITIONS: Record<TemplateType, TemplateDefinition> = {
     useCase: 'Announcing company milestones, pivots, or major updates',
     layoutDescription: 'Bold announcement text centered, supporting details below, HLN branding throughout',
   },
+  'agent-avatar': {
+    type: 'agent-avatar',
+    name: 'Agent Avatar',
+    description: 'Afro-futurist warrior portrait for Axis Village agents',
+    useCase: 'Generating consistent visual identity for ARIA sub-agents from manifest data',
+    layoutDescription: 'Character portrait with element-coded armor, chest sigil, environmental backdrop, cinematic lighting',
+  },
 };
 
 export function getTemplateDefinition(type: TemplateType): TemplateDefinition {
