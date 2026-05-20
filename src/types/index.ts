@@ -253,10 +253,88 @@ export interface CopyResult {
   timestamp: string;
 }
 
-/** Combined generation result (image + copy) */
+/** Combined generation result (image + copy + video) */
 export interface MediaKitResult {
   image?: GenerationResult;
   copy?: CopyResult;
+  video?: VideoResult;
+}
+
+// ── Video Generation Types ──────────────────────────────────────────
+
+/** Supported video aspect ratios */
+export type VideoAspectRatio = '16:9' | '9:16' | '1:1' | '4:3';
+
+/** Supported video resolutions */
+export type VideoResolution = '720p' | '1080p';
+
+/** Video resolution mapping */
+export const VIDEO_RESOLUTIONS: Record<VideoResolution, string> = {
+  '720p': '1280x720',
+  '1080p': '1920x1080',
+};
+
+/** Video provider presets */
+export type VideoProvider = 'kling' | 'runway' | 'veo' | 'seedance' | 'fal';
+
+/** Provider model ID mapping */
+export const VIDEO_PROVIDER_MODELS: Record<VideoProvider, string> = {
+  kling: 'kling/kling-v2.6-t2v',
+  runway: 'runway/gen4-turbo',
+  veo: 'google/veo-3.1-generate-001',
+  seedance: 'seedance/seedance-2.0',
+  fal: 'fal/luma-dream-machine/ray-2',
+};
+
+/** Configuration for the video generator */
+export interface VideoGeneratorConfig {
+  /** Default video model (AI Gateway format: provider/model) */
+  model?: string;
+  /** Shorthand provider selection — overridden by model if both set */
+  provider?: VideoProvider;
+  /** Default duration in seconds */
+  duration?: number;
+  /** Default aspect ratio */
+  aspectRatio?: VideoAspectRatio;
+  /** Default resolution */
+  resolution?: VideoResolution;
+  /** Output directory for generated videos */
+  outputDir?: string;
+  /** Polling timeout in ms (default: 600000 = 10 min) */
+  pollTimeoutMs?: number;
+}
+
+/** Input for video generation — extends the image prompt system */
+export interface VideoGenerationInput {
+  /** The text prompt (reuses image prompt builder output) */
+  prompt: string;
+  /** Optional source image for image-to-video */
+  sourceImage?: string;
+  /** Duration in seconds (default: 5) */
+  duration?: number;
+  /** Aspect ratio */
+  aspectRatio?: VideoAspectRatio;
+  /** Resolution */
+  resolution?: VideoResolution;
+  /** Override model for this generation */
+  model?: string;
+  /** Override provider for this generation */
+  provider?: VideoProvider;
+  /** Output directory */
+  outputDir?: string;
+  /** Custom filename */
+  filename?: string;
+}
+
+/** Result from video generation */
+export interface VideoResult {
+  outputPath: string;
+  prompt: string;
+  model: string;
+  duration: number;
+  aspectRatio: VideoAspectRatio;
+  resolution: VideoResolution;
+  timestamp: string;
 }
 
 /** Configuration for the text generator */

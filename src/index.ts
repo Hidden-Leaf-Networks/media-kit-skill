@@ -31,6 +31,12 @@ export type {
   BrandElements,
   GenerationResult,
   ImageGeneratorConfig,
+  VideoAspectRatio,
+  VideoResolution,
+  VideoProvider,
+  VideoGeneratorConfig,
+  VideoGenerationInput,
+  VideoResult,
 } from './types/index.js';
 
 // Types — Text
@@ -46,7 +52,7 @@ export type {
   TextGeneratorConfig,
 } from './types/index.js';
 
-export { FORMAT_DIMENSIONS, COPY_FORMAT_RULES } from './types/index.js';
+export { FORMAT_DIMENSIONS, COPY_FORMAT_RULES, VIDEO_RESOLUTIONS, VIDEO_PROVIDER_MODELS } from './types/index.js';
 
 // Design System
 export { BRAND, TYPOGRAPHY, MOTIFS, LAYOUT_RULES, DESIGN_SYSTEM } from './config/design-system.js';
@@ -103,6 +109,9 @@ export type { OpenAIChatClient } from './generators/text-generator.js';
 // Generators — Image Editor
 export { ImageEditor, createImageEditorFromEnv } from './generators/image-editor.js';
 export type { OpenAIImageEditClient, ImageEditorConfig, ImageEditInput, ImageEditResult } from './generators/image-editor.js';
+
+// Generators — Video
+export { VideoGenerator, createVideoGeneratorFromEnv } from './generators/video-generator.js';
 
 // Compositor
 export { compositeLogoOnImage, compositeAssets } from './generators/compositor.js';

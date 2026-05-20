@@ -9,11 +9,13 @@ import type {
   CopyTone,
   MediaKitInput,
   MediaKitResult,
+  VideoGenerationInput,
 } from '../types/index.js';
 import { COPY_FORMAT_RULES } from '../types/index.js';
 import { buildCopyPrompts, validateCopyInput } from './copy-builder.js';
 import { validateInput } from './prompt-builder.js';
 import { ImageGenerator } from './image-generator.js';
+import { VideoGenerator } from './video-generator.js';
 
 /** OpenAI chat client interface (subset we need) */
 export interface OpenAIChatClient {
@@ -96,6 +98,8 @@ export async function generateKit(
   options: {
     imageGenerator?: ImageGenerator;
     textGenerator?: TextGenerator;
+    videoGenerator?: VideoGenerator;
+    videoInput?: VideoGenerationInput;
     copyFormat?: CopyFormat;
     tone?: CopyTone;
   },
@@ -116,6 +120,14 @@ export async function generateKit(
     tasks.push(
       options.textGenerator.generate(input, options.copyFormat, options.tone).then((copy) => {
         result.copy = copy;
+      }),
+    );
+  }
+
+  if (options.videoGenerator && options.videoInput) {
+    tasks.push(
+      options.videoGenerator.generate(options.videoInput).then((vid) => {
+        result.video = vid;
       }),
     );
   }
