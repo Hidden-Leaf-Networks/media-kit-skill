@@ -48,6 +48,34 @@ export const TEMPLATE_DEFINITIONS: Record<TemplateType, TemplateDefinition> = {
     useCase: 'Generating consistent visual identity for ARIA sub-agents from manifest data',
     layoutDescription: 'Character portrait with element-coded armor, chest sigil, environmental backdrop, cinematic lighting',
   },
+  commercial: {
+    type: 'commercial',
+    name: 'Commercial',
+    description: 'Paid ad creative for social media campaigns',
+    useCase: 'Facebook/Instagram/LinkedIn ad creatives with headline, offer, and CTA',
+    layoutDescription: 'Bold headline centered, offer badge in accent, CTA button, minimal copy, brand footer',
+  },
+  'software-release': {
+    type: 'software-release',
+    name: 'Software Release',
+    description: 'Version release announcement for open-source packages',
+    useCase: 'Announcing new versions with changelogs, install commands, and GitHub links',
+    layoutDescription: 'Package name + version pill, release type badge, 3 highlights in code-style font, install command block',
+  },
+  'video-promo': {
+    type: 'video-promo',
+    name: 'Video Promo',
+    description: 'Thumbnail and promotional graphic for video content',
+    useCase: 'YouTube thumbnails, demo reel promos, walkthrough teasers',
+    layoutDescription: 'Title large, play button motif, duration badge, topic pills, cinematic gradient',
+  },
+  'app-showcase': {
+    type: 'app-showcase',
+    name: 'App Showcase',
+    description: 'Portfolio piece showcasing web apps and client sites',
+    useCase: 'Showcasing live applications with device mockups and value propositions',
+    layoutDescription: 'Device mockup centered, app name + URL above, 3 value prop badges below, premium feel',
+  },
 };
 
 export function getTemplateDefinition(type: TemplateType): TemplateDefinition {

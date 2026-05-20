@@ -3,18 +3,26 @@ import { buildCaseStudyConfig } from '../src/templates/case-study';
 import { buildServicePromoConfig } from '../src/templates/service-promo';
 import { buildMilestoneConfig } from '../src/templates/milestone';
 import { buildAgentAvatarConfig } from '../src/templates/agent-avatar';
+import { buildCommercialConfig } from '../src/templates/commercial';
+import { buildSoftwareReleaseConfig } from '../src/templates/software-release';
+import { buildVideoPromoConfig } from '../src/templates/video-promo';
+import { buildAppShowcaseConfig } from '../src/templates/app-showcase';
 import { TEMPLATE_DEFINITIONS, getTemplateDefinition, getAllTemplateTypes } from '../src/config/templates';
-import type { ProductLaunchInput, CaseStudyInput, ServicePromoInput, MilestoneInput, AgentAvatarInput } from '../src/types/index';
+import type { ProductLaunchInput, CaseStudyInput, ServicePromoInput, MilestoneInput, AgentAvatarInput, CommercialInput, SoftwareReleaseInput, VideoPromoInput, AppShowcaseInput } from '../src/types/index';
 
 describe('Template Definitions', () => {
-  it('has all 5 template types registered', () => {
+  it('has all 9 template types registered', () => {
     const types = getAllTemplateTypes();
     expect(types).toContain('product-launch');
     expect(types).toContain('case-study');
     expect(types).toContain('service-promo');
     expect(types).toContain('milestone');
     expect(types).toContain('agent-avatar');
-    expect(types).toHaveLength(5);
+    expect(types).toContain('commercial');
+    expect(types).toContain('software-release');
+    expect(types).toContain('video-promo');
+    expect(types).toContain('app-showcase');
+    expect(types).toHaveLength(9);
   });
 
   it('each definition has required fields', () => {
@@ -346,5 +354,241 @@ describe('Agent Avatar Template', () => {
       expect(config.template).toBe('agent-avatar');
       expect(config.sections.length).toBe(6);
     }
+  });
+});
+
+describe('Commercial Template', () => {
+  const input: CommercialInput = {
+    template: 'commercial',
+    format: 'instagram',
+    headline: 'AI-Powered Websites',
+    subheadline: 'Launch in 2 weeks, not 2 months',
+    cta: 'Book a Call',
+    targetAudience: 'small-business',
+    offerText: 'Starting at $950',
+  };
+
+  it('returns correct template type', () => {
+    const config = buildCommercialConfig(input);
+    expect(config.template).toBe('commercial');
+  });
+
+  it('has headline, subheadline, offer, and footer sections', () => {
+    const config = buildCommercialConfig(input);
+    const roles = config.sections.map((s) => s.role);
+    expect(roles).toContain('headline');
+    expect(roles).toContain('subheadline');
+    expect(roles).toContain('offer');
+    expect(roles).toContain('footer');
+  });
+
+  it('includes headline text', () => {
+    const config = buildCommercialConfig(input);
+    const headline = config.sections.find((s) => s.role === 'headline')!;
+    expect(headline.content).toContain('AI-Powered Websites');
+  });
+
+  it('includes CTA in offer section', () => {
+    const config = buildCommercialConfig(input);
+    const offer = config.sections.find((s) => s.role === 'offer')!;
+    expect(offer.content).toContain('Book a Call');
+  });
+
+  it('includes offer text when provided', () => {
+    const config = buildCommercialConfig(input);
+    const offer = config.sections.find((s) => s.role === 'offer')!;
+    expect(offer.content).toContain('Starting at $950');
+  });
+
+  it('works without offer text', () => {
+    const { offerText, ...noOffer } = input;
+    const config = buildCommercialConfig(noOffer as CommercialInput);
+    expect(config.template).toBe('commercial');
+  });
+});
+
+describe('Software Release Template', () => {
+  const input: SoftwareReleaseInput = {
+    template: 'software-release',
+    format: 'linkedin',
+    packageName: '@hidden-leaf/x-skill',
+    version: 'v1.1.0',
+    releaseType: 'minor',
+    highlights: ['Tweet posting', 'Media upload', 'Apache 2.0 license'],
+    installCommand: 'npm install @hidden-leaf/x-skill',
+  };
+
+  it('returns correct template type', () => {
+    const config = buildSoftwareReleaseConfig(input);
+    expect(config.template).toBe('software-release');
+  });
+
+  it('has header, highlights, install, and footer sections', () => {
+    const config = buildSoftwareReleaseConfig(input);
+    const roles = config.sections.map((s) => s.role);
+    expect(roles).toContain('header');
+    expect(roles).toContain('highlights');
+    expect(roles).toContain('install');
+    expect(roles).toContain('footer');
+  });
+
+  it('includes package name and version in header', () => {
+    const config = buildSoftwareReleaseConfig(input);
+    const header = config.sections.find((s) => s.role === 'header')!;
+    expect(header.content).toContain('@hidden-leaf/x-skill');
+    expect(header.content).toContain('v1.1.0');
+  });
+
+  it('includes all 3 highlights', () => {
+    const config = buildSoftwareReleaseConfig(input);
+    const highlights = config.sections.find((s) => s.role === 'highlights')!;
+    expect(highlights.content).toContain('Tweet posting');
+    expect(highlights.content).toContain('Media upload');
+    expect(highlights.content).toContain('Apache 2.0 license');
+  });
+
+  it('includes install command', () => {
+    const config = buildSoftwareReleaseConfig(input);
+    const install = config.sections.find((s) => s.role === 'install')!;
+    expect(install.content).toContain('npm install @hidden-leaf/x-skill');
+  });
+
+  it('uses teal for minor release', () => {
+    const config = buildSoftwareReleaseConfig(input);
+    const header = config.sections.find((s) => s.role === 'header')!;
+    expect(header.content).toContain('#00D4FF');
+  });
+
+  it('uses red for major release', () => {
+    const majorInput = { ...input, releaseType: 'major' as const };
+    const config = buildSoftwareReleaseConfig(majorInput);
+    const header = config.sections.find((s) => s.role === 'header')!;
+    expect(header.content).toContain('#FF4444');
+  });
+});
+
+describe('Video Promo Template', () => {
+  const input: VideoPromoInput = {
+    template: 'video-promo',
+    format: 'og',
+    videoTitle: 'Building AI Agents with Claude Code',
+    duration: '12:34',
+    platform: 'youtube',
+    keyTopics: ['Agent architecture', 'Tool use', 'Deployment'],
+    speakerName: 'Tre Snowchild',
+  };
+
+  it('returns correct template type', () => {
+    const config = buildVideoPromoConfig(input);
+    expect(config.template).toBe('video-promo');
+  });
+
+  it('has title, play-button, topics, and footer sections', () => {
+    const config = buildVideoPromoConfig(input);
+    const roles = config.sections.map((s) => s.role);
+    expect(roles).toContain('title');
+    expect(roles).toContain('play-button');
+    expect(roles).toContain('topics');
+    expect(roles).toContain('footer');
+  });
+
+  it('includes video title', () => {
+    const config = buildVideoPromoConfig(input);
+    const title = config.sections.find((s) => s.role === 'title')!;
+    expect(title.content).toContain('Building AI Agents with Claude Code');
+  });
+
+  it('includes duration badge', () => {
+    const config = buildVideoPromoConfig(input);
+    const play = config.sections.find((s) => s.role === 'play-button')!;
+    expect(play.content).toContain('12:34');
+  });
+
+  it('includes all 3 topics', () => {
+    const config = buildVideoPromoConfig(input);
+    const topics = config.sections.find((s) => s.role === 'topics')!;
+    expect(topics.content).toContain('Agent architecture');
+    expect(topics.content).toContain('Tool use');
+    expect(topics.content).toContain('Deployment');
+  });
+
+  it('includes speaker name when provided', () => {
+    const config = buildVideoPromoConfig(input);
+    const footer = config.sections.find((s) => s.role === 'footer')!;
+    expect(footer.content).toContain('Tre Snowchild');
+  });
+
+  it('works without speaker name', () => {
+    const { speakerName, ...noSpeaker } = input;
+    const config = buildVideoPromoConfig(noSpeaker as VideoPromoInput);
+    expect(config.template).toBe('video-promo');
+  });
+});
+
+describe('App Showcase Template', () => {
+  const input: AppShowcaseInput = {
+    template: 'app-showcase',
+    format: 'linkedin',
+    appName: 'Generous Giving Detroit',
+    appUrl: 'generousgivingdetroit.com',
+    screenshotDescription: 'Magazine-style editorial layout with photo grid and donation forms',
+    deviceFrame: 'laptop',
+    valueProps: ['Editorial design', 'Donation forms', 'Mobile responsive'],
+    clientName: 'Karen Cannady',
+  };
+
+  it('returns correct template type', () => {
+    const config = buildAppShowcaseConfig(input);
+    expect(config.template).toBe('app-showcase');
+  });
+
+  it('has header, device-mockup, value-props, and footer sections', () => {
+    const config = buildAppShowcaseConfig(input);
+    const roles = config.sections.map((s) => s.role);
+    expect(roles).toContain('header');
+    expect(roles).toContain('device-mockup');
+    expect(roles).toContain('value-props');
+    expect(roles).toContain('footer');
+  });
+
+  it('includes app name and URL in header', () => {
+    const config = buildAppShowcaseConfig(input);
+    const header = config.sections.find((s) => s.role === 'header')!;
+    expect(header.content).toContain('Generous Giving Detroit');
+    expect(header.content).toContain('generousgivingdetroit.com');
+  });
+
+  it('includes client name when provided', () => {
+    const config = buildAppShowcaseConfig(input);
+    const header = config.sections.find((s) => s.role === 'header')!;
+    expect(header.content).toContain('Karen Cannady');
+  });
+
+  it('includes laptop mockup description', () => {
+    const config = buildAppShowcaseConfig(input);
+    const mockup = config.sections.find((s) => s.role === 'device-mockup')!;
+    expect(mockup.content).toContain('laptop');
+    expect(mockup.content).toContain('Magazine-style editorial layout');
+  });
+
+  it('includes all 3 value props', () => {
+    const config = buildAppShowcaseConfig(input);
+    const vp = config.sections.find((s) => s.role === 'value-props')!;
+    expect(vp.content).toContain('Editorial design');
+    expect(vp.content).toContain('Donation forms');
+    expect(vp.content).toContain('Mobile responsive');
+  });
+
+  it('supports multi-device frame', () => {
+    const multiInput = { ...input, deviceFrame: 'multi-device' as const };
+    const config = buildAppShowcaseConfig(multiInput);
+    const mockup = config.sections.find((s) => s.role === 'device-mockup')!;
+    expect(mockup.content).toContain('Multiple device mockups');
+  });
+
+  it('works without client name', () => {
+    const { clientName, ...noClient } = input;
+    const config = buildAppShowcaseConfig(noClient as AppShowcaseInput);
+    expect(config.template).toBe('app-showcase');
   });
 });

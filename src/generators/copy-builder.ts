@@ -10,6 +10,10 @@ import { buildProductLaunchCopyConfig } from '../templates/product-launch.js';
 import { buildCaseStudyCopyConfig } from '../templates/case-study.js';
 import { buildServicePromoCopyConfig } from '../templates/service-promo.js';
 import { buildMilestoneCopyConfig } from '../templates/milestone.js';
+import { buildCommercialCopyConfig } from '../templates/commercial.js';
+import { buildSoftwareReleaseCopyConfig } from '../templates/software-release.js';
+import { buildVideoPromoCopyConfig } from '../templates/video-promo.js';
+import { buildAppShowcaseCopyConfig } from '../templates/app-showcase.js';
 
 /**
  * Build a CopyConfig from a MediaKitInput by routing to the correct template
@@ -30,6 +34,14 @@ export function buildCopyConfig(
       return buildMilestoneCopyConfig(input, copyFormat, tone);
     case 'agent-avatar':
       throw new Error('agent-avatar template does not support copy generation');
+    case 'commercial':
+      return buildCommercialCopyConfig(input, copyFormat, tone);
+    case 'software-release':
+      return buildSoftwareReleaseCopyConfig(input, copyFormat, tone);
+    case 'video-promo':
+      return buildVideoPromoCopyConfig(input, copyFormat, tone);
+    case 'app-showcase':
+      return buildAppShowcaseCopyConfig(input, copyFormat, tone);
   }
 }
 

@@ -3,7 +3,7 @@
  */
 
 /** Supported template types */
-export type TemplateType = 'product-launch' | 'case-study' | 'service-promo' | 'milestone' | 'agent-avatar';
+export type TemplateType = 'product-launch' | 'case-study' | 'service-promo' | 'milestone' | 'agent-avatar' | 'commercial' | 'software-release' | 'video-promo' | 'app-showcase';
 
 /** Supported output formats with dimensions */
 export type OutputFormat = 'linkedin' | 'instagram' | 'og' | 'facebook-cover';
@@ -127,8 +127,52 @@ export interface AgentAvatarInput extends BaseMediaKitInput {
   hairStyle?: string;
 }
 
+/** Commercial ad creative input */
+export interface CommercialInput extends BaseMediaKitInput {
+  template: 'commercial';
+  headline: string;
+  subheadline: string;
+  cta: string;
+  offerText?: string;
+  targetAudience: string;
+}
+
+/** Software release announcement input */
+export interface SoftwareReleaseInput extends BaseMediaKitInput {
+  template: 'software-release';
+  packageName: string;
+  version: string;
+  releaseType: 'major' | 'minor' | 'patch';
+  highlights: [string, string, string];
+  breakingChanges?: string[];
+  installCommand?: string;
+  repoUrl?: string;
+}
+
+/** Video promo / thumbnail input */
+export interface VideoPromoInput extends BaseMediaKitInput {
+  template: 'video-promo';
+  videoTitle: string;
+  duration: string;
+  platform: 'youtube' | 'loom' | 'twitter' | 'general';
+  keyTopics: [string, string, string];
+  thumbnailMood?: string;
+  speakerName?: string;
+}
+
+/** App showcase / portfolio input */
+export interface AppShowcaseInput extends BaseMediaKitInput {
+  template: 'app-showcase';
+  appName: string;
+  appUrl: string;
+  screenshotDescription: string;
+  deviceFrame: 'laptop' | 'phone' | 'tablet' | 'multi-device';
+  valueProps: [string, string, string];
+  clientName?: string;
+}
+
 /** Union type for all template inputs */
-export type MediaKitInput = ProductLaunchInput | CaseStudyInput | ServicePromoInput | MilestoneInput | AgentAvatarInput;
+export type MediaKitInput = ProductLaunchInput | CaseStudyInput | ServicePromoInput | MilestoneInput | AgentAvatarInput | CommercialInput | SoftwareReleaseInput | VideoPromoInput | AppShowcaseInput;
 
 /** Prompt configuration output from templates */
 export interface PromptConfig {

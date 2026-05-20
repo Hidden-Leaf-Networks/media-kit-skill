@@ -11,6 +11,10 @@ import { buildCaseStudyConfig } from '../templates/case-study.js';
 import { buildServicePromoConfig } from '../templates/service-promo.js';
 import { buildMilestoneConfig } from '../templates/milestone.js';
 import { buildAgentAvatarConfig, assembleAgentAvatarPrompt } from '../templates/agent-avatar.js';
+import { buildCommercialConfig } from '../templates/commercial.js';
+import { buildSoftwareReleaseConfig } from '../templates/software-release.js';
+import { buildVideoPromoConfig } from '../templates/video-promo.js';
+import { buildAppShowcaseConfig } from '../templates/app-showcase.js';
 
 /**
  * Build a PromptConfig from a MediaKitInput by routing to the correct template
@@ -27,6 +31,14 @@ export function buildPromptConfig(input: MediaKitInput): PromptConfig {
       return buildMilestoneConfig(input);
     case 'agent-avatar':
       return buildAgentAvatarConfig(input);
+    case 'commercial':
+      return buildCommercialConfig(input);
+    case 'software-release':
+      return buildSoftwareReleaseConfig(input);
+    case 'video-promo':
+      return buildVideoPromoConfig(input);
+    case 'app-showcase':
+      return buildAppShowcaseConfig(input);
   }
 }
 
@@ -170,6 +182,40 @@ export function validateInput(input: MediaKitInput): string[] {
       if (input.gender && !['male', 'female', 'androgynous'].includes(input.gender)) {
         errors.push(`Invalid gender: ${input.gender}`);
       }
+      break;
+    case 'commercial':
+      if (!input.headline) errors.push('headline is required for commercial');
+      if (!input.subheadline) errors.push('subheadline is required for commercial');
+      if (!input.cta) errors.push('cta is required for commercial');
+      if (!input.targetAudience) errors.push('targetAudience is required for commercial');
+      break;
+    case 'software-release':
+      if (!input.packageName) errors.push('packageName is required for software-release');
+      if (!input.version) errors.push('version is required for software-release');
+      if (!input.releaseType) errors.push('releaseType is required for software-release');
+      else if (!['major', 'minor', 'patch'].includes(input.releaseType)) {
+        errors.push(`Invalid releaseType: ${input.releaseType}. Must be one of: major, minor, patch`);
+      }
+      if (!input.highlights || input.highlights.length !== 3) errors.push('highlights must be an array of exactly 3 strings');
+      break;
+    case 'video-promo':
+      if (!input.videoTitle) errors.push('videoTitle is required for video-promo');
+      if (!input.duration) errors.push('duration is required for video-promo');
+      if (!input.platform) errors.push('platform is required for video-promo');
+      else if (!['youtube', 'loom', 'twitter', 'general'].includes(input.platform)) {
+        errors.push(`Invalid platform: ${input.platform}. Must be one of: youtube, loom, twitter, general`);
+      }
+      if (!input.keyTopics || input.keyTopics.length !== 3) errors.push('keyTopics must be an array of exactly 3 strings');
+      break;
+    case 'app-showcase':
+      if (!input.appName) errors.push('appName is required for app-showcase');
+      if (!input.appUrl) errors.push('appUrl is required for app-showcase');
+      if (!input.screenshotDescription) errors.push('screenshotDescription is required for app-showcase');
+      if (!input.deviceFrame) errors.push('deviceFrame is required for app-showcase');
+      else if (!['laptop', 'phone', 'tablet', 'multi-device'].includes(input.deviceFrame)) {
+        errors.push(`Invalid deviceFrame: ${input.deviceFrame}. Must be one of: laptop, phone, tablet, multi-device`);
+      }
+      if (!input.valueProps || input.valueProps.length !== 3) errors.push('valueProps must be an array of exactly 3 strings');
       break;
     default:
       errors.push(`Unknown template: ${(input as MediaKitInput).template}`);

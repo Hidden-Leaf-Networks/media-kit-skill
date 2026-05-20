@@ -18,6 +18,10 @@ export type {
   ServicePromoInput,
   MilestoneInput,
   AgentAvatarInput,
+  CommercialInput,
+  SoftwareReleaseInput,
+  VideoPromoInput,
+  AppShowcaseInput,
   EnergyPrefix,
   AvatarComposition,
   GenderPresentation,
@@ -57,6 +61,10 @@ export { buildCaseStudyConfig } from './templates/case-study.js';
 export { buildServicePromoConfig } from './templates/service-promo.js';
 export { buildMilestoneConfig } from './templates/milestone.js';
 export { buildAgentAvatarConfig, assembleAgentAvatarPrompt } from './templates/agent-avatar.js';
+export { buildCommercialConfig } from './templates/commercial.js';
+export { buildSoftwareReleaseConfig } from './templates/software-release.js';
+export { buildVideoPromoConfig } from './templates/video-promo.js';
+export { buildAppShowcaseConfig } from './templates/app-showcase.js';
 
 // Proposal Templates
 export {
@@ -77,6 +85,10 @@ export { buildProductLaunchCopyConfig } from './templates/product-launch.js';
 export { buildCaseStudyCopyConfig } from './templates/case-study.js';
 export { buildServicePromoCopyConfig } from './templates/service-promo.js';
 export { buildMilestoneCopyConfig } from './templates/milestone.js';
+export { buildCommercialCopyConfig } from './templates/commercial.js';
+export { buildSoftwareReleaseCopyConfig } from './templates/software-release.js';
+export { buildVideoPromoCopyConfig } from './templates/video-promo.js';
+export { buildAppShowcaseCopyConfig } from './templates/app-showcase.js';
 
 // Generators — Image
 export { buildPromptConfig, assemblePrompt, buildPrompt, validateInput } from './generators/prompt-builder.js';

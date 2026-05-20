@@ -149,6 +149,18 @@ export class ImageGenerator {
       case 'agent-avatar':
         slug = `${input.energyPrefix}-${input.rootName}`.toLowerCase().replace(/[^a-z0-9]+/g, '-');
         break;
+      case 'commercial':
+        slug = input.headline.toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 30);
+        break;
+      case 'software-release':
+        slug = `${input.packageName}-${input.version}`.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+        break;
+      case 'video-promo':
+        slug = input.videoTitle.toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 30);
+        break;
+      case 'app-showcase':
+        slug = input.appName.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+        break;
     }
 
     return `${input.template}-${slug}-${input.format}-${timestamp}.png`;

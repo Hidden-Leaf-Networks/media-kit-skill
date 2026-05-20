@@ -1,6 +1,6 @@
 {
   "name": "@hidden-leaf/media-kit-skill",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Branded marketing image generation skill for Claude Code — produces HLN-style graphics via GPT image API",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
