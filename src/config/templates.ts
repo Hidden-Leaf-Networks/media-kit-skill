@@ -76,6 +76,13 @@ export const TEMPLATE_DEFINITIONS: Record<TemplateType, TemplateDefinition> = {
     useCase: 'Showcasing live applications with device mockups and value propositions',
     layoutDescription: 'Device mockup centered, app name + URL above, 3 value prop badges below, premium feel',
   },
+  'brand-avatar': {
+    type: 'brand-avatar',
+    name: 'Brand Avatar',
+    description: 'Chibi characters, cyberpunk scenery, and logo treatments for social media avatars',
+    useCase: 'X/GitHub profile images, org avatars, branded chibi characters in Neo Detroit / Konoha style',
+    layoutDescription: 'Square composition, cyberpunk aesthetic, teal/magenta neon, optimized for tiny display sizes',
+  },
 };
 
 export function getTemplateDefinition(type: TemplateType): TemplateDefinition {

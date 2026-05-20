@@ -14,6 +14,7 @@ import { buildCommercialCopyConfig } from '../templates/commercial.js';
 import { buildSoftwareReleaseCopyConfig } from '../templates/software-release.js';
 import { buildVideoPromoCopyConfig } from '../templates/video-promo.js';
 import { buildAppShowcaseCopyConfig } from '../templates/app-showcase.js';
+import { buildBrandAvatarCopyConfig } from '../templates/brand-avatar.js';
 
 /**
  * Build a CopyConfig from a MediaKitInput by routing to the correct template
@@ -42,6 +43,8 @@ export function buildCopyConfig(
       return buildVideoPromoCopyConfig(input, copyFormat, tone);
     case 'app-showcase':
       return buildAppShowcaseCopyConfig(input, copyFormat, tone);
+    case 'brand-avatar':
+      return buildBrandAvatarCopyConfig(input, copyFormat, tone);
   }
 }
 

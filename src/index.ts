@@ -22,6 +22,8 @@ export type {
   SoftwareReleaseInput,
   VideoPromoInput,
   AppShowcaseInput,
+  BrandAvatarInput,
+  BrandAvatarStyle,
   EnergyPrefix,
   AvatarComposition,
   GenderPresentation,
@@ -71,6 +73,7 @@ export { buildCommercialConfig } from './templates/commercial.js';
 export { buildSoftwareReleaseConfig } from './templates/software-release.js';
 export { buildVideoPromoConfig } from './templates/video-promo.js';
 export { buildAppShowcaseConfig } from './templates/app-showcase.js';
+export { buildBrandAvatarConfig } from './templates/brand-avatar.js';
 
 // Proposal Templates
 export {
@@ -95,6 +98,7 @@ export { buildCommercialCopyConfig } from './templates/commercial.js';
 export { buildSoftwareReleaseCopyConfig } from './templates/software-release.js';
 export { buildVideoPromoCopyConfig } from './templates/video-promo.js';
 export { buildAppShowcaseCopyConfig } from './templates/app-showcase.js';
+export { buildBrandAvatarCopyConfig } from './templates/brand-avatar.js';
 
 // Generators — Image
 export { buildPromptConfig, assemblePrompt, buildPrompt, validateInput } from './generators/prompt-builder.js';

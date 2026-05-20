@@ -7,8 +7,9 @@ import { buildCommercialConfig } from '../src/templates/commercial';
 import { buildSoftwareReleaseConfig } from '../src/templates/software-release';
 import { buildVideoPromoConfig } from '../src/templates/video-promo';
 import { buildAppShowcaseConfig } from '../src/templates/app-showcase';
+import { buildBrandAvatarConfig } from '../src/templates/brand-avatar';
 import { TEMPLATE_DEFINITIONS, getTemplateDefinition, getAllTemplateTypes } from '../src/config/templates';
-import type { ProductLaunchInput, CaseStudyInput, ServicePromoInput, MilestoneInput, AgentAvatarInput, CommercialInput, SoftwareReleaseInput, VideoPromoInput, AppShowcaseInput } from '../src/types/index';
+import type { ProductLaunchInput, CaseStudyInput, ServicePromoInput, MilestoneInput, AgentAvatarInput, CommercialInput, SoftwareReleaseInput, VideoPromoInput, AppShowcaseInput, BrandAvatarInput } from '../src/types/index';
 
 describe('Template Definitions', () => {
   it('has all 9 template types registered', () => {
@@ -22,7 +23,8 @@ describe('Template Definitions', () => {
     expect(types).toContain('software-release');
     expect(types).toContain('video-promo');
     expect(types).toContain('app-showcase');
-    expect(types).toHaveLength(9);
+    expect(types).toContain('brand-avatar');
+    expect(types).toHaveLength(10);
   });
 
   it('each definition has required fields', () => {
@@ -590,5 +592,88 @@ describe('App Showcase Template', () => {
     const { clientName, ...noClient } = input;
     const config = buildAppShowcaseConfig(noClient as AppShowcaseInput);
     expect(config.template).toBe('app-showcase');
+  });
+});
+
+describe('Brand Avatar Template', () => {
+  const chibiInput: BrandAvatarInput = {
+    template: 'brand-avatar',
+    format: 'instagram',
+    style: 'chibi',
+    brandName: 'Hidden Leaf Networks',
+    scenePreset: 'cyberpunk-konoha',
+    characterDescription: 'Young Black male with locs, teal cyber-visor, dark tech armor',
+  };
+
+  it('returns correct template type', () => {
+    const config = buildBrandAvatarConfig(chibiInput);
+    expect(config.template).toBe('brand-avatar');
+  });
+
+  it('has scene section for chibi style', () => {
+    const config = buildBrandAvatarConfig(chibiInput);
+    const scene = config.sections.find((s) => s.role === 'scene')!;
+    expect(scene.content).toContain('Chibi anime character');
+    expect(scene.content).toContain('locs');
+  });
+
+  it('includes scene preset description', () => {
+    const config = buildBrandAvatarConfig(chibiInput);
+    const scene = config.sections.find((s) => s.role === 'scene')!;
+    expect(scene.content).toContain('hidden village');
+  });
+
+  it('supports scenery style', () => {
+    const sceneryInput: BrandAvatarInput = {
+      ...chibiInput,
+      style: 'scenery',
+      scenePreset: 'neo-detroit',
+    };
+    const config = buildBrandAvatarConfig(sceneryInput);
+    const scene = config.sections.find((s) => s.role === 'scene')!;
+    expect(scene.content).toContain('Environmental cyberpunk cityscape');
+    expect(scene.content).toContain('Detroit');
+  });
+
+  it('supports logo-treatment style', () => {
+    const logoInput: BrandAvatarInput = {
+      ...chibiInput,
+      style: 'logo-treatment',
+      scenePreset: 'holographic',
+    };
+    const config = buildBrandAvatarConfig(logoInput);
+    const scene = config.sections.find((s) => s.role === 'scene')!;
+    expect(scene.content).toContain('Logo mark treatment');
+    expect(scene.content).toContain('Holographic');
+  });
+
+  it('supports custom scene description', () => {
+    const customInput: BrandAvatarInput = {
+      ...chibiInput,
+      scenePreset: undefined,
+      customScene: 'Underwater cyber-temple with bioluminescent coral',
+    };
+    const config = buildBrandAvatarConfig(customInput);
+    const scene = config.sections.find((s) => s.role === 'scene')!;
+    expect(scene.content).toContain('bioluminescent coral');
+  });
+
+  it('disables logo and url brand elements', () => {
+    const config = buildBrandAvatarConfig(chibiInput);
+    expect(config.brandElements.logo).toBe(false);
+    expect(config.brandElements.url).toBe(false);
+  });
+
+  it('includes teal color palette directive', () => {
+    const config = buildBrandAvatarConfig(chibiInput);
+    const scene = config.sections.find((s) => s.role === 'scene')!;
+    expect(scene.content).toContain('#00D4FF');
+  });
+
+  it('supports all 3 styles', () => {
+    for (const style of ['chibi', 'scenery', 'logo-treatment'] as const) {
+      const config = buildBrandAvatarConfig({ ...chibiInput, style });
+      expect(config.template).toBe('brand-avatar');
+    }
   });
 });

@@ -15,6 +15,7 @@ import { buildCommercialConfig } from '../templates/commercial.js';
 import { buildSoftwareReleaseConfig } from '../templates/software-release.js';
 import { buildVideoPromoConfig } from '../templates/video-promo.js';
 import { buildAppShowcaseConfig } from '../templates/app-showcase.js';
+import { buildBrandAvatarConfig } from '../templates/brand-avatar.js';
 
 /**
  * Build a PromptConfig from a MediaKitInput by routing to the correct template
@@ -39,6 +40,8 @@ export function buildPromptConfig(input: MediaKitInput): PromptConfig {
       return buildVideoPromoConfig(input);
     case 'app-showcase':
       return buildAppShowcaseConfig(input);
+    case 'brand-avatar':
+      return buildBrandAvatarConfig(input);
   }
 }
 
@@ -216,6 +219,13 @@ export function validateInput(input: MediaKitInput): string[] {
         errors.push(`Invalid deviceFrame: ${input.deviceFrame}. Must be one of: laptop, phone, tablet, multi-device`);
       }
       if (!input.valueProps || input.valueProps.length !== 3) errors.push('valueProps must be an array of exactly 3 strings');
+      break;
+    case 'brand-avatar':
+      if (!input.style) errors.push('style is required for brand-avatar');
+      else if (!['chibi', 'scenery', 'logo-treatment'].includes(input.style)) {
+        errors.push(`Invalid style: ${input.style}. Must be one of: chibi, scenery, logo-treatment`);
+      }
+      if (!input.brandName) errors.push('brandName is required for brand-avatar');
       break;
     default:
       errors.push(`Unknown template: ${(input as MediaKitInput).template}`);

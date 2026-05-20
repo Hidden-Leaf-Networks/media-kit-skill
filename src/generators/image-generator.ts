@@ -161,6 +161,9 @@ export class ImageGenerator {
       case 'app-showcase':
         slug = input.appName.toLowerCase().replace(/[^a-z0-9]+/g, '-');
         break;
+      case 'brand-avatar':
+        slug = `${input.style}-${input.brandName}`.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+        break;
     }
 
     return `${input.template}-${slug}-${input.format}-${timestamp}.png`;

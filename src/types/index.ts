@@ -3,7 +3,7 @@
  */
 
 /** Supported template types */
-export type TemplateType = 'product-launch' | 'case-study' | 'service-promo' | 'milestone' | 'agent-avatar' | 'commercial' | 'software-release' | 'video-promo' | 'app-showcase';
+export type TemplateType = 'product-launch' | 'case-study' | 'service-promo' | 'milestone' | 'agent-avatar' | 'commercial' | 'software-release' | 'video-promo' | 'app-showcase' | 'brand-avatar';
 
 /** Supported output formats with dimensions */
 export type OutputFormat = 'linkedin' | 'instagram' | 'og' | 'facebook-cover';
@@ -171,8 +171,32 @@ export interface AppShowcaseInput extends BaseMediaKitInput {
   clientName?: string;
 }
 
+/** Brand avatar style */
+export type BrandAvatarStyle = 'chibi' | 'scenery' | 'logo-treatment';
+
+/** Brand avatar template input */
+export interface BrandAvatarInput extends BaseMediaKitInput {
+  template: 'brand-avatar';
+  /** Avatar style: chibi character, environmental scenery, or logo treatment */
+  style: BrandAvatarStyle;
+  /** Brand name */
+  brandName: string;
+  /** Scene preset: cyberpunk-konoha, neo-detroit, frost-shrine, neon-forge, holographic, void-terminal */
+  scenePreset?: string;
+  /** Custom scene description (overrides preset) */
+  customScene?: string;
+  /** Character description for chibi style */
+  characterDescription?: string;
+  /** How/where the logo appears in the scene */
+  logoPlacement?: string;
+  /** Optional text description for copy generation */
+  description?: string;
+  /** Include text in the image (default: false) */
+  includeText?: boolean;
+}
+
 /** Union type for all template inputs */
-export type MediaKitInput = ProductLaunchInput | CaseStudyInput | ServicePromoInput | MilestoneInput | AgentAvatarInput | CommercialInput | SoftwareReleaseInput | VideoPromoInput | AppShowcaseInput;
+export type MediaKitInput = ProductLaunchInput | CaseStudyInput | ServicePromoInput | MilestoneInput | AgentAvatarInput | CommercialInput | SoftwareReleaseInput | VideoPromoInput | AppShowcaseInput | BrandAvatarInput;
 
 /** Prompt configuration output from templates */
 export interface PromptConfig {
