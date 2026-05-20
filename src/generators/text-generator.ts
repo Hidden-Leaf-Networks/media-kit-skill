@@ -13,8 +13,9 @@ import type {
 } from '../types/index.js';
 import { COPY_FORMAT_RULES } from '../types/index.js';
 import { buildCopyPrompts, validateCopyInput } from './copy-builder.js';
-import { validateInput } from './prompt-builder.js';
+import { buildPrompt, validateInput } from './prompt-builder.js';
 import { ImageGenerator } from './image-generator.js';
+import { ImageEditor } from './image-editor.js';
 import { VideoGenerator } from './video-generator.js';
 
 /** OpenAI chat client interface (subset we need) */
@@ -97,6 +98,7 @@ export async function generateKit(
   input: MediaKitInput,
   options: {
     imageGenerator?: ImageGenerator;
+    imageEditor?: ImageEditor;
     textGenerator?: TextGenerator;
     videoGenerator?: VideoGenerator;
     videoInput?: VideoGenerationInput;
@@ -108,7 +110,28 @@ export async function generateKit(
 
   const tasks: Promise<void>[] = [];
 
-  if (options.imageGenerator) {
+  // brand-avatar with sourceImage → route to ImageEditor for exact logo preservation
+  if (input.template === 'brand-avatar' && input.sourceImage && options.imageEditor) {
+    const prompt = buildPrompt(input);
+    tasks.push(
+      options.imageEditor.edit({
+        imagePath: input.sourceImage,
+        prompt,
+        size: '1024x1024',
+        outputDir: input.outputDir,
+        filename: input.filename,
+      }).then((editResult) => {
+        result.image = {
+          outputPath: editResult.outputPath,
+          prompt: editResult.prompt,
+          model: editResult.model,
+          format: input.format,
+          dimensions: { width: 1024, height: 1024 },
+          timestamp: editResult.timestamp,
+        };
+      }),
+    );
+  } else if (options.imageGenerator) {
     tasks.push(
       options.imageGenerator.generate(input).then((img) => {
         result.image = img;

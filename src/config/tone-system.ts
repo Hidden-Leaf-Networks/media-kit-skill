@@ -103,6 +103,21 @@ const TONE_PRESETS: Record<CopyTone, { description: string; extraRules: string[]
       'Zero technical jargon — absolute zero',
     ],
   },
+  founder: {
+    description: 'Direct, sharp, zero fluff. Tre talking to builders and developers. Say more with less.',
+    extraRules: [
+      'Lead with what shipped, not what it means — the reader can figure that out',
+      'Numbers over adjectives: "10 repos" not "a comprehensive suite"',
+      'Never say: unlock, elevate, seamlessly, leverage, cutting-edge, revolutionary, empower, robust',
+      'Never say: "excited to announce", "proud to share", "I\'m thrilled"',
+      'Short sentences. Fragments OK. Let the work speak.',
+      'Technical detail is fine — the audience builds things too',
+      'If it sounds like it came from a press release, rewrite it',
+      'End with an action or a link, not a feeling',
+      'Detroit energy: direct, no pretense, built not bought',
+      'One emoji max per post. Zero is better.',
+    ],
+  },
 };
 
 /** Platform-specific copy guidelines */
@@ -122,14 +137,15 @@ const PERSPECTIVES: Partial<Record<CopyTone, string>> = {
   'ai-engineering': `You are Tre Snowchild, founder of Hidden Leaf Networks — an applied AI studio in Detroit. You build production multi-agent systems with governed execution, risk engines, and audit trails. 14 agents deployed, 300+ tests, v3.4.0 in production.`,
   'web-studio': `You are Tre, founder of Hidden Leaf Web Studio. ${VOICE.experience}. Based in ${VOICE.location}. You build professional websites for small businesses and nonprofits — live client work at kycdoggz.com and generousgivingdetroit.com.`,
   'small-business': `You are Tre from Hidden Leaf Web Studio in Metro Detroit. You help small businesses and nonprofits get online with professional websites. You've been building for the web for 20 years. You offer installment plans and ongoing care.`,
+  founder: `You are Tre Snowchild, founder of Hidden Leaf Networks. You ship open-source AI tools, run a web studio, and build everything from agent frameworks to branded content engines. 10 public repos, 20 years building for the web, based in Detroit. You write like you talk — direct, technical when it matters, zero filler. If a sentence doesn't earn its place, cut it.`,
 };
 
 export function buildBrandVoice(tone: CopyTone, format: CopyFormat): BrandVoiceRules {
   const preset = TONE_PRESETS[tone];
   const defaultPerspective = `You are Tre, founder of Hidden Leaf Web Studio. ${VOICE.experience}. Based in ${VOICE.location}. You build professional, mobile-first websites for small businesses and nonprofits.`;
 
-  // AI engineering tone relaxes the "no jargon" rules
-  const baseDontRules = tone === 'ai-engineering'
+  // AI engineering and founder tones relax the "no jargon" rules
+  const baseDontRules = (tone === 'ai-engineering' || tone === 'founder')
     ? VOICE_DONT.filter(r => !r.includes('tech jargon'))
     : [...VOICE_DONT];
 

@@ -181,6 +181,8 @@ export interface BrandAvatarInput extends BaseMediaKitInput {
   style: BrandAvatarStyle;
   /** Brand name */
   brandName: string;
+  /** Source image path — when provided, routes to ImageEditor instead of ImageGenerator for exact logo preservation */
+  sourceImage?: string;
   /** Scene preset: cyberpunk-konoha, neo-detroit, frost-shrine, neon-forge, holographic, void-terminal */
   scenePreset?: string;
   /** Custom scene description (overrides preset) */
@@ -237,7 +239,7 @@ export const COPY_FORMAT_RULES: Record<CopyFormat, { maxLength: number; hashtagS
 };
 
 /** Tone presets */
-export type CopyTone = 'professional' | 'conversational' | 'community' | 'ai-engineering' | 'web-studio' | 'small-business';
+export type CopyTone = 'professional' | 'conversational' | 'community' | 'ai-engineering' | 'web-studio' | 'small-business' | 'founder';
 
 /** A section of copy content */
 export interface CopySection {
