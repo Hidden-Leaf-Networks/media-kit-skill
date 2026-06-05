@@ -64,7 +64,7 @@ export function buildVideoPromoConfig(input: VideoPromoInput): PromptConfig {
       },
       {
         role: 'footer',
-        content: `${speakerOverlay} "hiddenleafnetworks.com" URL at bottom. Cinematic gradient background with ${moodStr} mood. Do NOT render a logo — the real logo is composited in post-processing.`,
+        content: `${speakerOverlay} `${BRAND.url}` URL at bottom. Cinematic gradient background with ${moodStr} mood. Do NOT render a logo — the real logo is composited in post-processing.`,
       },
     ],
     brandElements: {

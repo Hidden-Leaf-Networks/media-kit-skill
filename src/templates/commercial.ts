@@ -63,7 +63,7 @@ export function buildCommercialConfig(input: CommercialInput): PromptConfig {
       },
       {
         role: 'footer',
-        content: `"hiddenleafnetworks.com" URL text at bottom in small white type. Clean, minimal layout — no clutter. Do NOT render a logo — the real logo is composited in post-processing.`,
+        content: ``${BRAND.url}` URL text at bottom in small white type. Clean, minimal layout — no clutter. Do NOT render a logo — the real logo is composited in post-processing.`,
       },
     ],
     brandElements: {

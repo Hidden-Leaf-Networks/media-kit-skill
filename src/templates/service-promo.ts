@@ -58,7 +58,7 @@ export function buildServicePromoConfig(input: ServicePromoInput): PromptConfig 
       },
       {
         role: 'footer',
-        content: `"hiddenleafnetworks.com" URL text at bottom in small white type. Subtle gradient mesh background. Do NOT render a logo — the real logo is composited in post-processing.`,
+        content: ``${BRAND.url}` URL text at bottom in small white type. Subtle gradient mesh background. Do NOT render a logo — the real logo is composited in post-processing.`,
       },
     ],
     brandElements: {

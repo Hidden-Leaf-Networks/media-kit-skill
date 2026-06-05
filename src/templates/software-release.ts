@@ -67,7 +67,7 @@ export function buildSoftwareReleaseConfig(input: SoftwareReleaseInput): PromptC
       },
       {
         role: 'footer',
-        content: `"hiddenleafnetworks.com" URL and optional GitHub icon. Tech mesh pattern background. Do NOT render a logo — the real logo is composited in post-processing.`,
+        content: ``${BRAND.url}` URL and optional GitHub icon. Tech mesh pattern background. Do NOT render a logo — the real logo is composited in post-processing.`,
       },
     ],
     brandElements: {

@@ -74,7 +74,7 @@ export function assemblePrompt(config: PromptConfig): string {
     `  - Headlines: Bold weight, large size`,
     `  - Subheadlines: Medium weight, slightly smaller`,
     `  - Body: Light weight, high readability`,
-    `- Brand name: "Hidden Leaf Networks"`,
+    `- Brand name: "${BRAND.name}"`,
     `- Brand tagline: "${BRAND.tagline}"`,
     `- URL: "${BRAND.url}"`,
     ``,

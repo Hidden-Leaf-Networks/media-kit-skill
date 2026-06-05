@@ -31,7 +31,7 @@ export function buildProductLaunchCopyConfig(
       },
       {
         role: 'cta',
-        instruction: `Close with where to learn more or get started. Link to hiddenleafnetworks.com if appropriate for the platform.`,
+        instruction: `Close with where to learn more or get started. Link to ${BRAND.url} if appropriate for the platform.`,
       },
     ],
     brandVoice: buildBrandVoice(tone, copyFormat),
@@ -61,7 +61,7 @@ export function buildProductLaunchConfig(input: ProductLaunchInput): PromptConfi
       },
       {
         role: 'footer',
-        content: `Footer area with "hiddenleafnetworks.com" URL text and subtle tech mesh pattern.`,
+        content: `Footer area with `${BRAND.url}` URL text and subtle tech mesh pattern.`,
       },
     ],
     brandElements: {

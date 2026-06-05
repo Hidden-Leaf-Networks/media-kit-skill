@@ -61,7 +61,7 @@ export function buildCaseStudyConfig(input: CaseStudyInput): PromptConfig {
       },
       {
         role: 'footer',
-        content: `Footer at bottom: "hiddenleafnetworks.com" URL text in small white type. Do NOT render a logo here — the real logo is composited in post-processing.`,
+        content: `Footer at bottom: `${BRAND.url}` URL text in small white type. Do NOT render a logo here — the real logo is composited in post-processing.`,
       },
     ],
     brandElements: {

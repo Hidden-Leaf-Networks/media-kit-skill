@@ -1,15 +1,19 @@
 /**
- * HLN Design System — extracted from 12 existing marketing graphics
+ * Brand Design System.
+ *
+ * Override via environment variables for your own brand:
+ *   BRAND_NAME, BRAND_PRIMARY_COLOR, BRAND_BACKGROUND,
+ *   BRAND_TAGLINE, BRAND_URL
  */
 
 export const BRAND = {
-  name: 'Hidden Leaf Networks',
-  primary: '#00D4FF',
+  name: process.env.BRAND_NAME ?? 'Your Brand',
+  primary: process.env.BRAND_PRIMARY_COLOR ?? '#00D4FF',
   secondary: '#FFFFFF',
-  background: '#0A0A1A',
+  background: process.env.BRAND_BACKGROUND ?? '#0A0A1A',
   cardBg: '#1A3A4A',
-  tagline: 'Applied AI & Advanced Digital Systems',
-  url: 'hiddenleafnetworks.com',
+  tagline: process.env.BRAND_TAGLINE ?? 'Your tagline here',
+  url: process.env.BRAND_URL ?? 'example.com',
 } as const;
 
 export const TYPOGRAPHY = {

@@ -1,7 +1,7 @@
 /**
  * @hidden-leaf/media-kit-skill
  *
- * Branded marketing image generation for Hidden Leaf Networks.
+ * Branded marketing image generation with configurable design system.
  * Generates style-locked graphics via GPT image API.
  */
 

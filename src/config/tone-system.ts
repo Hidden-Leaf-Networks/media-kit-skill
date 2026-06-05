@@ -6,14 +6,20 @@
 
 import type { CopyTone, CopyFormat, BrandVoiceRules } from '../types/index.js';
 
-/** Core brand voice identity */
+/**
+ * Core brand voice identity.
+ *
+ * Override via environment variables for your own brand:
+ *   BRAND_NAME, BRAND_PARENT_ORG, BRAND_FOUNDER, BRAND_EXPERIENCE,
+ *   BRAND_LOCATION, BRAND_URL
+ */
 export const VOICE = {
-  name: 'Hidden Leaf Web Studio',
-  parentOrg: 'Hidden Leaf Networks',
-  founder: 'Tre',
-  experience: '20 years in web development',
-  location: 'Metro Detroit',
-  url: 'hiddenleafnetworks.com',
+  name: process.env.BRAND_NAME ?? 'Your Studio',
+  parentOrg: process.env.BRAND_PARENT_ORG ?? 'Your Company',
+  founder: process.env.BRAND_FOUNDER ?? 'Founder',
+  experience: process.env.BRAND_EXPERIENCE ?? 'Years of experience in web development',
+  location: process.env.BRAND_LOCATION ?? 'Your City',
+  url: process.env.BRAND_URL ?? 'example.com',
 } as const;
 
 /** What the brand voice always does */
@@ -66,15 +72,14 @@ const TONE_PRESETS: Record<CopyTone, { description: string; extraRules: string[]
   'ai-engineering': {
     description: 'Technical, direct, production-proof. Ships governed AI systems, not wrappers.',
     extraRules: [
-      'Lead with production proof: 14 governed agents, 300+ tests, v3.4.0 deployed',
-      'Differentiate from wrapper builders — governed state machines vs prompt chain wrappers',
-      'Cite specific numbers: 14 agents, 300+ tests, 4 providers, 6 energy types',
-      'Offer a fixed-price pilot ($3k-7k) to reduce client risk',
-      'Close with "I can start today" or "Ready when you are"',
-      'Reference ARIA (agent framework), Auralis (RAG), atlassian-skill (267 tests)',
-      'Multi-model orchestration: Anthropic, OpenAI, xAI, Google with fallback chains',
-      'Governance edge: risk scoring, approval workflows, audit trails, skill allowlists',
-      'Rate floor: $125/hr — never race to the bottom',
+      'Lead with production proof: cite shipped projects, test counts, versions deployed',
+      'Differentiate from wrapper builders — governed systems vs prompt chain wrappers',
+      'Cite specific numbers over vague claims',
+      'Offer a fixed-price pilot to reduce client risk',
+      'Close with availability and a clear next step',
+      'Reference real shipped work by name',
+      'Emphasize multi-model orchestration and governance',
+      'Rate floor: know your worth — never race to the bottom',
       'Tech jargon is OK here — this audience is technical',
     ],
   },
@@ -83,10 +88,10 @@ const TONE_PRESETS: Record<CopyTone, { description: string; extraRules: string[]
     extraRules: [
       'Sell outcomes: more customers, professional credibility, time saved',
       'Speak to pain: broken mobile sites, no online presence, losing customers',
-      'Reference live work: KYC Doggz (kycdoggz.com), Generous Giving (generousgivingdetroit.com)',
-      'Include pricing: Essential $950, Growth $1,850, Authority $3,100',
-      'Upsell care plans: ongoing support $75-$300/mo',
-      'Ground in Detroit — local business serving local businesses',
+      'Reference live client work by name and URL',
+      'Include pricing transparently — list your packages',
+      'Upsell ongoing support or care plans',
+      'Ground in your local market — community serving community',
       'No tech jargon — say "modern website" not "Next.js 16 app"',
     ],
   },
@@ -134,15 +139,15 @@ const PLATFORM_NOTES: Record<CopyFormat, string> = {
  */
 /** Perspective overrides for specialized tones */
 const PERSPECTIVES: Partial<Record<CopyTone, string>> = {
-  'ai-engineering': `You are Tre Snowchild, founder of Hidden Leaf Networks — an applied AI studio in Detroit. You build production multi-agent systems with governed execution, risk engines, and audit trails. 14 agents deployed, 300+ tests, v3.4.0 in production.`,
-  'web-studio': `You are Tre, founder of Hidden Leaf Web Studio. ${VOICE.experience}. Based in ${VOICE.location}. You build professional websites for small businesses and nonprofits — live client work at kycdoggz.com and generousgivingdetroit.com.`,
-  'small-business': `You are Tre from Hidden Leaf Web Studio in Metro Detroit. You help small businesses and nonprofits get online with professional websites. You've been building for the web for 20 years. You offer installment plans and ongoing care.`,
-  founder: `You are Tre Snowchild, founder of Hidden Leaf Networks. You ship open-source AI tools, run a web studio, and build everything from agent frameworks to branded content engines. 10 public repos, 20 years building for the web, based in Detroit. You write like you talk — direct, technical when it matters, zero filler. If a sentence doesn't earn its place, cut it.`,
+  'ai-engineering': `You are ${VOICE.founder}, founder of ${VOICE.parentOrg}. ${VOICE.experience}. Based in ${VOICE.location}. You build production AI systems with governed execution and audit trails.`,
+  'web-studio': `You are ${VOICE.founder}, founder of ${VOICE.name}. ${VOICE.experience}. Based in ${VOICE.location}. You build professional websites for small businesses and nonprofits.`,
+  'small-business': `You are ${VOICE.founder} from ${VOICE.name} in ${VOICE.location}. You help small businesses and nonprofits get online with professional websites. You offer installment plans and ongoing care.`,
+  founder: `You are ${VOICE.founder}, founder of ${VOICE.parentOrg}. You ship tools, run a studio, and build real products. Based in ${VOICE.location}. You write like you talk — direct, technical when it matters, zero filler. If a sentence doesn't earn its place, cut it.`,
 };
 
 export function buildBrandVoice(tone: CopyTone, format: CopyFormat): BrandVoiceRules {
   const preset = TONE_PRESETS[tone];
-  const defaultPerspective = `You are Tre, founder of Hidden Leaf Web Studio. ${VOICE.experience}. Based in ${VOICE.location}. You build professional, mobile-first websites for small businesses and nonprofits.`;
+  const defaultPerspective = `You are ${VOICE.founder}, founder of ${VOICE.name}. ${VOICE.experience}. Based in ${VOICE.location}. You build professional, mobile-first websites for small businesses and nonprofits.`;
 
   // AI engineering and founder tones relax the "no jargon" rules
   const baseDontRules = (tone === 'ai-engineering' || tone === 'founder')

@@ -29,7 +29,7 @@ export function buildAppShowcaseCopyConfig(
       },
       {
         role: 'client-context',
-        instruction: `${input.clientName ? `Frame as a portfolio piece — "${input.clientName}" trusted Hidden Leaf Web Studio to bring this to life.` : 'Position as a capability demonstration of what the studio builds.'}`,
+        instruction: `${input.clientName ? `Frame as a portfolio piece — "${input.clientName}" trusted the studio to bring this to life.` : 'Position as a capability demonstration of what the studio builds.'}`,
       },
       {
         role: 'cta',
@@ -72,7 +72,7 @@ export function buildAppShowcaseConfig(input: AppShowcaseInput): PromptConfig {
       },
       {
         role: 'footer',
-        content: `"hiddenleafnetworks.com" URL at bottom. Clean dark gradient background. Premium, portfolio-quality feel. Do NOT render a logo — the real logo is composited in post-processing.`,
+        content: ``${BRAND.url}` URL at bottom. Clean dark gradient background. Premium, portfolio-quality feel. Do NOT render a logo — the real logo is composited in post-processing.`,
       },
     ],
     brandElements: {
