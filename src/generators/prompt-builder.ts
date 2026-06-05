@@ -16,6 +16,9 @@ import { buildSoftwareReleaseConfig } from '../templates/software-release.js';
 import { buildVideoPromoConfig } from '../templates/video-promo.js';
 import { buildAppShowcaseConfig } from '../templates/app-showcase.js';
 import { buildBrandAvatarConfig } from '../templates/brand-avatar.js';
+import { buildWebHeroConfig } from '../templates/web-hero.js';
+import { buildLandingPageBannerConfig } from '../templates/landing-page-banner.js';
+import { buildSceneCompositionConfig } from '../templates/scene-composition.js';
 
 /**
  * Build a PromptConfig from a MediaKitInput by routing to the correct template
@@ -42,6 +45,12 @@ export function buildPromptConfig(input: MediaKitInput): PromptConfig {
       return buildAppShowcaseConfig(input);
     case 'brand-avatar':
       return buildBrandAvatarConfig(input);
+    case 'web-hero':
+      return buildWebHeroConfig(input);
+    case 'landing-page-banner':
+      return buildLandingPageBannerConfig(input);
+    case 'scene-composition':
+      return buildSceneCompositionConfig(input);
   }
 }
 
@@ -53,6 +62,11 @@ export function assemblePrompt(config: PromptConfig): string {
   // Agent avatars use their own assembly — no brand marketing preamble
   if (config.template === 'agent-avatar') {
     return assembleAgentAvatarPrompt(config);
+  }
+
+  // Web design templates use web-specific assembly — no social media marketing framing
+  if (config.template === 'web-hero' || config.template === 'landing-page-banner' || config.template === 'scene-composition') {
+    return assembleWebDesignPrompt(config);
   }
 
   const templateDef = getTemplateDefinition(config.template);
@@ -125,6 +139,45 @@ export function assemblePrompt(config: PromptConfig): string {
 }
 
 /**
+ * Assemble a web-design-specific prompt — no social media marketing framing.
+ * Uses brand design system for colors/typography but frames as web content, not ads.
+ */
+function assembleWebDesignPrompt(config: PromptConfig): string {
+  const { width, height } = config.dimensions;
+  const parts: string[] = [];
+
+  parts.push(
+    `Create a premium web design asset at ${width}x${height} pixels.`,
+    `This is for a professional website — it must feel like a high-end agency production.`,
+    ``,
+    `## Design System`,
+    `- Use the brand's color palette: primary ${BRAND.primary}, background ${BRAND.background}, text ${BRAND.secondary}`,
+    `- Typography: Clean modern sans-serif (Inter, DM Sans, or similar)`,
+    `- Quality: 4K render quality, no artifacts, no watermarks, photorealistic or high-fidelity illustration`,
+    ``,
+  );
+
+  // Content sections from template
+  for (const section of config.sections) {
+    parts.push(`## ${section.role.charAt(0).toUpperCase() + section.role.slice(1)}`);
+    parts.push(section.content);
+    parts.push('');
+  }
+
+  // Web-specific quality directives
+  parts.push(
+    `## Quality Directives`,
+    `- This must look like a real website section, not an AI-generated graphic`,
+    `- Text must be perfectly rendered, spelled correctly, and properly kerned`,
+    `- Clean composition with professional spacing and alignment`,
+    `- No stock photo feel — authentic, intentional, art-directed`,
+    `- Output should be ready to use as-is in a production website`,
+  );
+
+  return parts.join('\n');
+}
+
+/**
  * Full pipeline: input → prompt string
  */
 export function buildPrompt(input: MediaKitInput): string {
@@ -145,7 +198,7 @@ export function validateInput(input: MediaKitInput): string[] {
   if (!input.format) {
     errors.push('format is required');
   } else if (!FORMAT_DIMENSIONS[input.format]) {
-    errors.push(`Invalid format: ${input.format}. Must be one of: linkedin, instagram, og, facebook-cover`);
+    errors.push(`Invalid format: ${input.format}. Must be one of: ${Object.keys(FORMAT_DIMENSIONS).join(', ')}`);
   }
 
   switch (input.template) {
@@ -226,6 +279,23 @@ export function validateInput(input: MediaKitInput): string[] {
         errors.push(`Invalid style: ${input.style}. Must be one of: chibi, scenery, logo-treatment`);
       }
       if (!input.brandName) errors.push('brandName is required for brand-avatar');
+      break;
+    case 'web-hero':
+      if (!input.headline) errors.push('headline is required for web-hero');
+      if (!input.mood) errors.push('mood is required for web-hero');
+      if (!input.subject) errors.push('subject is required for web-hero');
+      break;
+    case 'landing-page-banner':
+      if (!input.sectionType) errors.push('sectionType is required for landing-page-banner');
+      else if (!['features', 'cta', 'testimonial', 'stats', 'pricing', 'about', 'gallery'].includes(input.sectionType)) {
+        errors.push(`Invalid sectionType: ${input.sectionType}`);
+      }
+      if (!input.heading) errors.push('heading is required for landing-page-banner');
+      break;
+    case 'scene-composition':
+      if (!input.character) errors.push('character is required for scene-composition');
+      if (!input.environment) errors.push('environment is required for scene-composition');
+      if (!input.mood) errors.push('mood is required for scene-composition');
       break;
     default:
       errors.push(`Unknown template: ${(input as MediaKitInput).template}`);

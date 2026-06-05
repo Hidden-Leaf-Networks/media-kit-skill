@@ -5,6 +5,7 @@
 import type { ServicePromoInput, PromptConfig, CopyConfig, CopyFormat, CopyTone } from '../types/index.js';
 import { FORMAT_DIMENSIONS } from '../types/index.js';
 import { buildBrandVoice } from '../config/tone-system.js';
+import { BRAND } from '../config/design-system.js';
 
 export function buildServicePromoCopyConfig(
   input: ServicePromoInput,
@@ -58,7 +59,7 @@ export function buildServicePromoConfig(input: ServicePromoInput): PromptConfig 
       },
       {
         role: 'footer',
-        content: ``${BRAND.url}` URL text at bottom in small white type. Subtle gradient mesh background. Do NOT render a logo — the real logo is composited in post-processing.`,
+        content: `"${BRAND.url}" URL text at bottom in small white type. Subtle gradient mesh background. Do NOT render a logo — the real logo is composited in post-processing.`,
       },
     ],
     brandElements: {

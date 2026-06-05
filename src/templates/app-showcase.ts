@@ -5,6 +5,7 @@
 import type { AppShowcaseInput, PromptConfig, CopyConfig, CopyFormat, CopyTone } from '../types/index.js';
 import { FORMAT_DIMENSIONS } from '../types/index.js';
 import { buildBrandVoice } from '../config/tone-system.js';
+import { BRAND } from '../config/design-system.js';
 
 export function buildAppShowcaseCopyConfig(
   input: AppShowcaseInput,
@@ -72,7 +73,7 @@ export function buildAppShowcaseConfig(input: AppShowcaseInput): PromptConfig {
       },
       {
         role: 'footer',
-        content: ``${BRAND.url}` URL at bottom. Clean dark gradient background. Premium, portfolio-quality feel. Do NOT render a logo — the real logo is composited in post-processing.`,
+        content: `"${BRAND.url}" URL at bottom. Clean dark gradient background. Premium, portfolio-quality feel. Do NOT render a logo — the real logo is composited in post-processing.`,
       },
     ],
     brandElements: {

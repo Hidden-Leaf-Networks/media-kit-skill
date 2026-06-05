@@ -5,6 +5,7 @@
 import type { CaseStudyInput, PromptConfig, CopyConfig, CopyFormat, CopyTone } from '../types/index.js';
 import { FORMAT_DIMENSIONS } from '../types/index.js';
 import { buildBrandVoice } from '../config/tone-system.js';
+import { BRAND } from '../config/design-system.js';
 
 export function buildCaseStudyCopyConfig(
   input: CaseStudyInput,
@@ -61,7 +62,7 @@ export function buildCaseStudyConfig(input: CaseStudyInput): PromptConfig {
       },
       {
         role: 'footer',
-        content: `Footer at bottom: `${BRAND.url}` URL text in small white type. Do NOT render a logo here — the real logo is composited in post-processing.`,
+        content: `Footer at bottom: "${BRAND.url}" URL text in small white type. Do NOT render a logo here — the real logo is composited in post-processing.`,
       },
     ],
     brandElements: {

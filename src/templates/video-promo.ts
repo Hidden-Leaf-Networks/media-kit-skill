@@ -5,6 +5,7 @@
 import type { VideoPromoInput, PromptConfig, CopyConfig, CopyFormat, CopyTone } from '../types/index.js';
 import { FORMAT_DIMENSIONS } from '../types/index.js';
 import { buildBrandVoice } from '../config/tone-system.js';
+import { BRAND } from '../config/design-system.js';
 
 export function buildVideoPromoCopyConfig(
   input: VideoPromoInput,
@@ -64,7 +65,7 @@ export function buildVideoPromoConfig(input: VideoPromoInput): PromptConfig {
       },
       {
         role: 'footer',
-        content: `${speakerOverlay} `${BRAND.url}` URL at bottom. Cinematic gradient background with ${moodStr} mood. Do NOT render a logo — the real logo is composited in post-processing.`,
+        content: `${speakerOverlay} "${BRAND.url}" URL at bottom. Cinematic gradient background with ${moodStr} mood. Do NOT render a logo — the real logo is composited in post-processing.`,
       },
     ],
     brandElements: {

@@ -5,6 +5,7 @@
 import type { ProductLaunchInput, PromptConfig, CopyConfig, CopyFormat, CopyTone } from '../types/index.js';
 import { FORMAT_DIMENSIONS } from '../types/index.js';
 import { buildBrandVoice } from '../config/tone-system.js';
+import { BRAND } from '../config/design-system.js';
 
 export function buildProductLaunchCopyConfig(
   input: ProductLaunchInput,
@@ -61,7 +62,7 @@ export function buildProductLaunchConfig(input: ProductLaunchInput): PromptConfi
       },
       {
         role: 'footer',
-        content: `Footer area with `${BRAND.url}` URL text and subtle tech mesh pattern.`,
+        content: `Footer area with "${BRAND.url}" URL text and subtle tech mesh pattern.`,
       },
     ],
     brandElements: {

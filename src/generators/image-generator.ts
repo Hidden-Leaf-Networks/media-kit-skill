@@ -102,8 +102,9 @@ export class ImageGenerator {
     const buffer = Buffer.from(imageData.b64_json, 'base64');
     fs.writeFileSync(outputPath, buffer);
 
-    // Post-process: overlay logo (enabled by default, disabled for agent avatars)
-    if (input.logo !== false && input.template !== 'agent-avatar') {
+    // Post-process: overlay logo (enabled by default, disabled for agent avatars and web design templates)
+    const skipLogo = input.template === 'agent-avatar' || input.template === 'web-hero' || input.template === 'landing-page-banner' || input.template === 'scene-composition';
+    if (input.logo !== false && !skipLogo) {
       const logoOpts: CompositeOptions = {};
       if (input.logo) {
         if (input.logo.variant) logoOpts.logo = input.logo.variant;
@@ -163,6 +164,15 @@ export class ImageGenerator {
         break;
       case 'brand-avatar':
         slug = `${input.style}-${input.brandName}`.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+        break;
+      case 'web-hero':
+        slug = input.headline.toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 30);
+        break;
+      case 'landing-page-banner':
+        slug = `${input.sectionType}-${input.heading}`.toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 30);
+        break;
+      case 'scene-composition':
+        slug = input.character.toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 30);
         break;
     }
 

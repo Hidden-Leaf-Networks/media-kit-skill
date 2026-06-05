@@ -24,6 +24,11 @@ export type {
   AppShowcaseInput,
   BrandAvatarInput,
   BrandAvatarStyle,
+  SceneMood,
+  BannerSectionType,
+  WebHeroInput,
+  LandingPageBannerInput,
+  SceneCompositionInput,
   EnergyPrefix,
   AvatarComposition,
   GenderPresentation,
@@ -74,6 +79,9 @@ export { buildSoftwareReleaseConfig } from './templates/software-release.js';
 export { buildVideoPromoConfig } from './templates/video-promo.js';
 export { buildAppShowcaseConfig } from './templates/app-showcase.js';
 export { buildBrandAvatarConfig } from './templates/brand-avatar.js';
+export { buildWebHeroConfig } from './templates/web-hero.js';
+export { buildLandingPageBannerConfig } from './templates/landing-page-banner.js';
+export { buildSceneCompositionConfig } from './templates/scene-composition.js';
 
 // Proposal Templates
 export {
@@ -99,6 +107,9 @@ export { buildSoftwareReleaseCopyConfig } from './templates/software-release.js'
 export { buildVideoPromoCopyConfig } from './templates/video-promo.js';
 export { buildAppShowcaseCopyConfig } from './templates/app-showcase.js';
 export { buildBrandAvatarCopyConfig } from './templates/brand-avatar.js';
+export { buildWebHeroCopyConfig } from './templates/web-hero.js';
+export { buildLandingPageBannerCopyConfig } from './templates/landing-page-banner.js';
+export { buildSceneCompositionCopyConfig } from './templates/scene-composition.js';
 
 // Generators — Image
 export { buildPromptConfig, assemblePrompt, buildPrompt, validateInput } from './generators/prompt-builder.js';

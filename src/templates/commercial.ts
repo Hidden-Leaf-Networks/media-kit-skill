@@ -5,6 +5,7 @@
 import type { CommercialInput, PromptConfig, CopyConfig, CopyFormat, CopyTone } from '../types/index.js';
 import { FORMAT_DIMENSIONS } from '../types/index.js';
 import { buildBrandVoice } from '../config/tone-system.js';
+import { BRAND } from '../config/design-system.js';
 
 export function buildCommercialCopyConfig(
   input: CommercialInput,
@@ -63,7 +64,7 @@ export function buildCommercialConfig(input: CommercialInput): PromptConfig {
       },
       {
         role: 'footer',
-        content: ``${BRAND.url}` URL text at bottom in small white type. Clean, minimal layout — no clutter. Do NOT render a logo — the real logo is composited in post-processing.`,
+        content: `"${BRAND.url}" URL text at bottom in small white type. Clean, minimal layout — no clutter. Do NOT render a logo — the real logo is composited in post-processing.`,
       },
     ],
     brandElements: {

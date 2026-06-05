@@ -3,10 +3,10 @@
  */
 
 /** Supported template types */
-export type TemplateType = 'product-launch' | 'case-study' | 'service-promo' | 'milestone' | 'agent-avatar' | 'commercial' | 'software-release' | 'video-promo' | 'app-showcase' | 'brand-avatar';
+export type TemplateType = 'product-launch' | 'case-study' | 'service-promo' | 'milestone' | 'agent-avatar' | 'commercial' | 'software-release' | 'video-promo' | 'app-showcase' | 'brand-avatar' | 'web-hero' | 'landing-page-banner' | 'scene-composition';
 
 /** Supported output formats with dimensions */
-export type OutputFormat = 'linkedin' | 'instagram' | 'og' | 'facebook-cover';
+export type OutputFormat = 'linkedin' | 'instagram' | 'og' | 'facebook-cover' | 'web-desktop' | 'web-tablet' | 'web-mobile';
 
 /** Dimensions for each output format */
 export interface Dimensions {
@@ -24,6 +24,9 @@ export const FORMAT_DIMENSIONS: Record<OutputFormat, Dimensions> = {
   instagram: { width: 1088, height: 1088 },   // was 1080 → nearest div-by-16
   og: { width: 1200, height: 624 },           // was 630 → nearest div-by-16 (same as linkedin)
   'facebook-cover': { width: 816, height: 320 }, // was 820x312 → nearest div-by-16
+  'web-desktop': { width: 1440, height: 896 },   // 1440x900 → nearest div-by-16
+  'web-tablet': { width: 768, height: 1024 },     // iPad portrait
+  'web-mobile': { width: 384, height: 816 },      // 375x812 → nearest div-by-16
 };
 
 /** Supported quality levels */
@@ -197,8 +200,65 @@ export interface BrandAvatarInput extends BaseMediaKitInput {
   includeText?: boolean;
 }
 
+// ── Web Design Templates ──────────────────────────────────────────
+
+/** Scene mood presets for web hero and scene composition */
+export type SceneMood = 'cinematic' | 'minimal' | 'vibrant' | 'dark-luxury' | 'editorial' | 'futuristic' | 'organic' | 'bold-graphic';
+
+/** Web hero template input — full-width hero section images */
+export interface WebHeroInput extends BaseMediaKitInput {
+  template: 'web-hero';
+  /** Hero headline text */
+  headline: string;
+  /** Supporting subheadline */
+  subheadline?: string;
+  /** Visual mood/atmosphere */
+  mood: SceneMood;
+  /** Subject description (product, person, abstract scene) */
+  subject: string;
+  /** Optional CTA button text */
+  ctaText?: string;
+  /** Optional background description override */
+  backgroundOverride?: string;
+}
+
+/** Banner section type for landing pages */
+export type BannerSectionType = 'features' | 'cta' | 'testimonial' | 'stats' | 'pricing' | 'about' | 'gallery';
+
+/** Landing page banner template input — section-level web graphics */
+export interface LandingPageBannerInput extends BaseMediaKitInput {
+  template: 'landing-page-banner';
+  /** Section type drives layout and prompt structure */
+  sectionType: BannerSectionType;
+  /** Main section heading */
+  heading: string;
+  /** Supporting text or description */
+  supportingText?: string;
+  /** Items to display (features, stats, testimonials, etc.) */
+  items?: string[];
+  /** Visual mood */
+  mood?: SceneMood;
+}
+
+/** Scene composition template input — character + environment art for landing pages */
+export interface SceneCompositionInput extends BaseMediaKitInput {
+  template: 'scene-composition';
+  /** Character or subject description */
+  character: string;
+  /** Environment/backdrop description */
+  environment: string;
+  /** Visual mood */
+  mood: SceneMood;
+  /** Action or pose description */
+  action?: string;
+  /** Whether to leave clean edges for layering in Figma/CSS (default: true) */
+  layerFriendly?: boolean;
+  /** Optional text overlay to include */
+  overlayText?: string;
+}
+
 /** Union type for all template inputs */
-export type MediaKitInput = ProductLaunchInput | CaseStudyInput | ServicePromoInput | MilestoneInput | AgentAvatarInput | CommercialInput | SoftwareReleaseInput | VideoPromoInput | AppShowcaseInput | BrandAvatarInput;
+export type MediaKitInput = ProductLaunchInput | CaseStudyInput | ServicePromoInput | MilestoneInput | AgentAvatarInput | CommercialInput | SoftwareReleaseInput | VideoPromoInput | AppShowcaseInput | BrandAvatarInput | WebHeroInput | LandingPageBannerInput | SceneCompositionInput;
 
 /** Prompt configuration output from templates */
 export interface PromptConfig {

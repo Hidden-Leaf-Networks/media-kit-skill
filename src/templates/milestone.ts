@@ -5,6 +5,7 @@
 import type { MilestoneInput, PromptConfig, CopyConfig, CopyFormat, CopyTone } from '../types/index.js';
 import { FORMAT_DIMENSIONS } from '../types/index.js';
 import { buildBrandVoice } from '../config/tone-system.js';
+import { BRAND } from '../config/design-system.js';
 
 export function buildMilestoneCopyConfig(
   input: MilestoneInput,
@@ -58,7 +59,7 @@ export function buildMilestoneConfig(input: MilestoneInput): PromptConfig {
       },
       {
         role: 'branding',
-        content: ``${BRAND.url}` URL at bottom in small white type. Leave top-left corner clear for logo overlay. Teal accent elements throughout. Do NOT render a logo — the real logo is composited in post-processing.`,
+        content: `"${BRAND.url}" URL at bottom in small white type. Leave top-left corner clear for logo overlay. Teal accent elements throughout. Do NOT render a logo — the real logo is composited in post-processing.`,
       },
     ],
     brandElements: {

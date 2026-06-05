@@ -83,6 +83,27 @@ export const TEMPLATE_DEFINITIONS: Record<TemplateType, TemplateDefinition> = {
     useCase: 'X/GitHub profile images, org avatars, branded chibi characters in Neo Detroit / Konoha style',
     layoutDescription: 'Square composition, cyberpunk aesthetic, teal/magenta neon, optimized for tiny display sizes',
   },
+  'web-hero': {
+    type: 'web-hero',
+    name: 'Web Hero',
+    description: 'Full-width hero section images for landing pages',
+    useCase: 'Website hero sections, above-the-fold visuals, product launch pages',
+    layoutDescription: 'Full-width cinematic composition with headline zone, subject focal point, mood-driven atmosphere',
+  },
+  'landing-page-banner': {
+    type: 'landing-page-banner',
+    name: 'Landing Page Banner',
+    description: 'Section-level web graphics for features, CTAs, testimonials, stats',
+    useCase: 'Modular landing page sections that compose into a full page',
+    layoutDescription: 'Section-specific layout: feature grids, CTA blocks, testimonial cards, stat rows, pricing tables',
+  },
+  'scene-composition': {
+    type: 'scene-composition',
+    name: 'Scene Composition',
+    description: 'Character + environment layered art for web page hero sections',
+    useCase: 'Midjourney-style composable assets — characters and scenes designed for layering in Figma/CSS',
+    layoutDescription: 'Character focal point with clear edge separation, environmental backdrop, layer-friendly composition',
+  },
 };
 
 export function getTemplateDefinition(type: TemplateType): TemplateDefinition {
