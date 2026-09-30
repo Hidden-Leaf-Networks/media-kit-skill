@@ -64,6 +64,10 @@ export { FORMAT_DIMENSIONS, COPY_FORMAT_RULES, VIDEO_RESOLUTIONS, VIDEO_PROVIDER
 // Design System
 export { BRAND, TYPOGRAPHY, MOTIFS, LAYOUT_RULES, DESIGN_SYSTEM } from './config/design-system.js';
 
+// Brand Presets
+export { BRAND_PRESETS, applyBrandPreset, getBrandPreset, getAllBrandPresets } from './config/brand-presets.js';
+export type { BrandPreset, BrandConfig } from './config/brand-presets.js';
+
 // Tone System
 export { VOICE, VOICE_DO, VOICE_DONT, TONE_SYSTEM, buildBrandVoice } from './config/tone-system.js';
 

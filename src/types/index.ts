@@ -49,10 +49,19 @@ export interface BaseMediaKitInput {
   template: TemplateType;
   format: OutputFormat;
   quality?: ImageQuality;
+  /** Brand preset — applies venture-specific colors, tagline, URL, and motifs. */
+  brand?: import('../config/brand-presets.js').BrandPreset;
   /** Logo overlay config. Set to false to disable, or provide options. Default: enabled with 'dark' variant. */
   logo?: false | LogoOverlayOptions;
   outputDir?: string;
   filename?: string;
+  /**
+   * Reference image paths for style/character consistency.
+   * When provided, generation uses the edit API (gpt-image-1) with these as
+   * source images so the output preserves the visual identity of the references.
+   * Supports up to 16 images. Each must be < 25MB PNG/WEBP/JPG.
+   */
+  referenceImages?: string[];
 }
 
 /** Product launch template input */
@@ -203,7 +212,7 @@ export interface BrandAvatarInput extends BaseMediaKitInput {
 // ── Web Design Templates ──────────────────────────────────────────
 
 /** Scene mood presets for web hero and scene composition */
-export type SceneMood = 'cinematic' | 'minimal' | 'vibrant' | 'dark-luxury' | 'editorial' | 'futuristic' | 'organic' | 'bold-graphic';
+export type SceneMood = 'cinematic' | 'minimal' | 'vibrant' | 'dark-luxury' | 'editorial' | 'futuristic' | 'organic' | 'bold-graphic' | 'blanime' | 'afrofuturist-3d';
 
 /** Web hero template input — full-width hero section images */
 export interface WebHeroInput extends BaseMediaKitInput {

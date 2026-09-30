@@ -4,17 +4,25 @@
  * Override via environment variables for your own brand:
  *   BRAND_NAME, BRAND_PRIMARY_COLOR, BRAND_BACKGROUND,
  *   BRAND_TAGLINE, BRAND_URL
+ *
+ * Or use brand presets: applyBrandPreset('moplay')
+ * See brand-presets.ts for available presets.
  */
 
+/**
+ * BRAND reads from process.env on every access via getters.
+ * This allows brand presets to override values at runtime
+ * by setting process.env before prompt generation.
+ */
 export const BRAND = {
-  name: process.env.BRAND_NAME ?? 'Your Brand',
-  primary: process.env.BRAND_PRIMARY_COLOR ?? '#00D4FF',
-  secondary: '#FFFFFF',
-  background: process.env.BRAND_BACKGROUND ?? '#0A0A1A',
-  cardBg: '#1A3A4A',
-  tagline: process.env.BRAND_TAGLINE ?? 'Your tagline here',
-  url: process.env.BRAND_URL ?? 'example.com',
-} as const;
+  get name() { return process.env.BRAND_NAME ?? 'Your Brand'; },
+  get primary() { return process.env.BRAND_PRIMARY_COLOR ?? '#00D4FF'; },
+  get secondary() { return '#FFFFFF' as const; },
+  get background() { return process.env.BRAND_BACKGROUND ?? '#0A0A1A'; },
+  get cardBg() { return '#1A3A4A' as const; },
+  get tagline() { return process.env.BRAND_TAGLINE ?? 'Your tagline here'; },
+  get url() { return process.env.BRAND_URL ?? 'example.com'; },
+};
 
 export const TYPOGRAPHY = {
   headline: 'Bold, clean sans-serif, high contrast white on dark',

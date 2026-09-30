@@ -21,6 +21,8 @@ const SCENE_MOODS: Record<string, string> = {
   futuristic: 'Sci-fi environment, holographic elements, neon accents. Character integrated into a tech-forward world.',
   organic: 'Natural environment, botanical elements, warm sunlight. Character harmonizes with nature.',
   'bold-graphic': 'Flat stylized art, geometric backgrounds, bold outlines. Character as graphic element. Poster-art style.',
+  'blanime': 'Black anime (blanime) art style inspired by The Boondocks and Samurai Champloo. Thick black outlines, cel-shaded flat coloring, dramatic angular faces with sharp jawlines and expressive eyes. Stylized adult animation aesthetic with confident linework. NOT chibi, NOT photorealistic — pure stylized animation with bold dynamic poses and motion lines. Heavy shadows with sharp colored highlights, cinematic anime composition.',
+  'afrofuturist-3d': 'Photorealistic 3D CGI render with afrofuturist aesthetic. Unreal Engine 5 cinematic quality — volumetric lighting, subsurface scattering on skin, ray-traced reflections. Characters wear sleek futuristic tactical gear with glowing circuit-line accents and cultural geometric patterns. Environment is cyberpunk cityscape reimagined through African diaspora lens — holographic billboards, network nodes, beacon towers with pulse rings. Premium CGI movie-still quality.',
 };
 
 export function buildSceneCompositionCopyConfig(

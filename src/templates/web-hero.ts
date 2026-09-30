@@ -18,6 +18,8 @@ const MOOD_DIRECTIONS: Record<string, string> = {
   futuristic: 'Sci-fi inspired — holographic elements, neon glows, circuit patterns, translucent UI panels. Cyberpunk meets clean tech.',
   organic: 'Natural textures, warm earth tones, flowing curves. Botanical elements, soft lighting, handcrafted feel.',
   'bold-graphic': 'Flat design with bold geometric shapes, strong color blocks, oversized typography. Poster-art energy.',
+  'blanime': 'Black anime (blanime) art style — thick black outlines, cel-shaded flat coloring, dramatic angular faces, adult animation aesthetic. Confident linework, dynamic poses, heavy shadows with sharp colored highlights. NOT chibi, NOT photorealistic.',
+  'afrofuturist-3d': 'Photorealistic 3D CGI with afrofuturist aesthetic — volumetric lighting, ray-traced reflections, futuristic tactical gear with glowing circuit accents, cyberpunk cityscape through African diaspora lens. Movie-still quality.',
 };
 
 export function buildWebHeroCopyConfig(

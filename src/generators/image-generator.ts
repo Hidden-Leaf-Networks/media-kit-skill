@@ -9,6 +9,7 @@ import { FORMAT_DIMENSIONS } from '../types/index.js';
 import { buildPrompt, validateInput } from './prompt-builder.js';
 import { compositeLogoOnImage } from './compositor.js';
 import type { CompositeOptions } from './compositor.js';
+import { applyBrandPreset } from '../config/brand-presets.js';
 
 /** OpenAI client interface (subset we need) */
 export interface OpenAIImageClient {
@@ -19,6 +20,15 @@ export interface OpenAIImageClient {
       n: number;
       size: string;
       quality: string;
+      output_format?: string;
+    }): Promise<{ data: Array<{ b64_json?: string; url?: string }> }>;
+    edit(params: {
+      model: string;
+      image: unknown | unknown[];
+      prompt: string;
+      n: number;
+      size: string;
+      quality?: string;
       output_format?: string;
     }): Promise<{ data: Array<{ b64_json?: string; url?: string }> }>;
   };
@@ -64,6 +74,11 @@ export class ImageGenerator {
    * Generate a branded marketing image from structured input
    */
   async generate(input: MediaKitInput): Promise<GenerationResult> {
+    // Apply brand preset if specified (overrides BRAND design system values)
+    if (input.brand) {
+      applyBrandPreset(input.brand);
+    }
+
     // Validate input
     const errors = validateInput(input);
     if (errors.length > 0) {
@@ -84,14 +99,46 @@ export class ImageGenerator {
     // Call OpenAI API
     const size = getOpenAISize(input.format, this.model);
     const quality = input.quality ?? this.quality;
-    const response = await this.client.images.generate({
-      model: this.model,
-      prompt,
-      n: 1,
-      size,
-      quality,
-      output_format: 'png',
-    });
+
+    // If reference images provided, use edit API for style/character consistency.
+    // gpt-image-1 is the primary model for edits (supports up to 16 refs).
+    // gpt-image-2 can also be used as the generator model — reference images
+    // just route through the edit endpoint regardless of the configured model.
+    const hasRefs = input.referenceImages && input.referenceImages.length > 0;
+    let response: { data: Array<{ b64_json?: string; url?: string }> };
+
+    if (hasRefs) {
+      const refImages = input.referenceImages!.map((refPath) => {
+        if (!fs.existsSync(refPath)) {
+          throw new Error(`Reference image not found: ${refPath}`);
+        }
+        const buf = fs.readFileSync(refPath);
+        return new File([buf], path.basename(refPath), { type: 'image/png' });
+      });
+
+      // Use configured model for edit if it supports it, fallback to gpt-image-1
+      const editModel = this.model === 'gpt-image-2' ? 'gpt-image-1' : (this.model ?? 'gpt-image-1');
+      const editSize = getOpenAISize(input.format, editModel);
+      response = await this.client.images.edit({
+        model: editModel,
+        image: refImages.length === 1 ? refImages[0] : refImages,
+        prompt,
+        n: 1,
+        size: editSize,
+        quality,
+        output_format: 'png',
+      });
+    } else {
+      // Standard generation — uses configured model (gpt-image-2 default)
+      response = await this.client.images.generate({
+        model: this.model,
+        prompt,
+        n: 1,
+        size,
+        quality,
+        output_format: 'png',
+      });
+    }
 
     // Save image
     const imageData = response.data[0];

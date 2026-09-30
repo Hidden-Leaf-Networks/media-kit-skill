@@ -17,6 +17,7 @@ import { buildPrompt, validateInput } from './prompt-builder.js';
 import { ImageGenerator } from './image-generator.js';
 import { ImageEditor } from './image-editor.js';
 import { VideoGenerator } from './video-generator.js';
+import { applyBrandPreset } from '../config/brand-presets.js';
 
 /** OpenAI chat client interface (subset we need) */
 export interface OpenAIChatClient {
@@ -49,6 +50,11 @@ export class TextGenerator {
     copyFormat: CopyFormat,
     tone?: CopyTone,
   ): Promise<CopyResult> {
+    // Apply brand preset if specified
+    if (input.brand) {
+      applyBrandPreset(input.brand);
+    }
+
     // Validate
     const inputErrors = validateInput(input);
     const copyErrors = validateCopyInput(copyFormat);
@@ -106,6 +112,11 @@ export async function generateKit(
     tone?: CopyTone;
   },
 ): Promise<MediaKitResult> {
+  // Apply brand preset if specified (before any generation)
+  if (input.brand) {
+    applyBrandPreset(input.brand);
+  }
+
   const result: MediaKitResult = {};
 
   const tasks: Promise<void>[] = [];
