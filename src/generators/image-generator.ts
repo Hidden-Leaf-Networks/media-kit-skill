@@ -86,7 +86,7 @@ export class ImageGenerator {
     }
 
     // Build prompt
-    const prompt = buildPrompt(input);
+    let prompt = buildPrompt(input);
 
     // Determine output path
     const outputDir = input.outputDir ?? this.outputDir;
@@ -116,9 +116,17 @@ export class ImageGenerator {
         return new File([buf], path.basename(refPath), { type: 'image/png' });
       });
 
-      // Use configured model for edit if it supports it, fallback to gpt-image-1
-      const editModel = this.model === 'gpt-image-2' ? 'gpt-image-1' : (this.model ?? 'gpt-image-1');
+      // gpt-image-2.5-sunburst for best edit quality, configurable via env
+      const editModel = process.env.MEDIA_KIT_EDIT_MODEL
+        ?? 'gpt-image-2.5-sunburst';
       const editSize = getOpenAISize(input.format, editModel);
+
+      // Label reference images for better style transfer
+      const refLabels = input.referenceImages!.map((p, i) =>
+        `Image ${i + 1}: style reference — ${path.basename(p, '.png').replace(/_/g, ' ')}`
+      ).join('. ');
+      prompt = `${refLabels}.\n\nMatch the exact style, proportions, and rendering quality of these references.\n\n${prompt}`;
+
       response = await this.client.images.edit({
         model: editModel,
         image: refImages.length === 1 ? refImages[0] : refImages,
